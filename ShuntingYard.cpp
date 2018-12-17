@@ -9,8 +9,6 @@
 #include "Plus.h"
 #include "Div.h"
 
-ShuntingYard::ShuntingYard() {
-}
 
 // Function to find precedence of operators.
 /*
@@ -94,6 +92,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
 
           // Current exp is a operator
         } else{
+
             /*
              * While top of 'ops' has same or greater precedence to current
              * token, which is an operator.

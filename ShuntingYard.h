@@ -16,7 +16,6 @@ class ShuntingYard {
 
 public:
     Expression* fromInfixToExp(string infixExpression);
-    ShuntingYard();
 
 };
 

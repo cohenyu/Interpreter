@@ -11,8 +11,13 @@
 using namespace std;
 class Lexer {
 
-public:
-    vector<string>  
+    vector<string> fromTxtToData (string fileName);
+
+    vector<string> fromConsoleToData(int argc, char* argv[]);
+
+    vector<string> lexer(int argc ,char* argv[]);
+
+
 
 };
 

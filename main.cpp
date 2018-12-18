@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
     // 17
     ShuntingYard* x = new ShuntingYard;
     Expression *i = x->fromInfixToExp("4 * 5 -(-3*-2) / 2");
-    double r = 5; i->calculate();
+    double r = i->calculate();
     cout << r << endl;
 
   //Lexer* lexer = new Lexer();

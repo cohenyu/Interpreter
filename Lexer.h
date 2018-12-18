@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <bits/stdc++.h>
 
 using namespace std;
 class Lexer {
@@ -14,7 +15,12 @@ class Lexer {
     vector<string> fromTxtToData (string fileName);
 
     vector<string> fromConsoleToData(int argc, char* argv[]);
-
+    vector<string> arithmeticProcess(vector<string> data);
+    bool isCommand(string str);
+    bool isIp(string str);
+    bool isCmpOperator(string str);
+    bool isOperator(string str);
+public:
     vector<string> lexer(int argc ,char* argv[]);
 
 

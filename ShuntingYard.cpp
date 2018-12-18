@@ -38,7 +38,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
     stack <Expression*> values;
     // stack to store operators.
     stack <char> ops;
-
+    int isNeg =1;
     //run over the infix string
     for(int  i = 0; i < infixExpression.length(); i++){
 
@@ -53,6 +53,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
 
         // Current exp is a number, push it to stack of Expression
         else if(isdigit(infixExpression[i])){
+            isNeg = 0;
             double val = 0;
 
             // There may be more than one digits in number.
@@ -92,14 +93,17 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
 
           // Current exp is a operator
         } else{
-
+            if (isNeg){
+                Expression* num = new Number(0);
+                values.push(num);
+            }
             /*
              * While top of 'ops' has same or greater precedence to current
              * token, which is an operator.
              * Apply operator on top of 'ops' to top two elements in
              * values stack.
              * */
-            while (!ops.empty() && (precedence((infixExpression[i])) <=
+            while (!ops.empty() && !isNeg && (precedence((infixExpression[i])) <=
             precedence(ops.top()))){
                 //remove the operator from the queue and put in the stack
                 Expression *right = values.top();
@@ -113,6 +117,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
 
                 values.push(createExp(left, right, op));
             }
+            isNeg = 1;
             // add the operator to the stack
             ops.push(infixExpression[i]);
         }

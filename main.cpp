@@ -4,7 +4,7 @@
 #include <ostream>
 
 int main(int argc, char **argv) {
-    
+
    //100
     //ShuntingYard* x = new ShuntingYard;
     //Expression *i = x->fromInfixToExp("100 * ( 2 + 12 ) / 14");
@@ -44,18 +44,21 @@ int main(int argc, char **argv) {
     //cout << r << endl;
 
     // 17
+    //ShuntingYard* x = new ShuntingYard;
+    //Expression *i = x->fromInfixToExp("4 * 5 -(-3*-2) / 2");
+    //double r = i->calculate();
+    //cout << r << endl;
+
     ShuntingYard* x = new ShuntingYard;
-    Expression *i = x->fromInfixToExp("4 * 5 -(-3*-2) / 2");
-    double r = i->calculate();
-    cout << r << endl;
+    Expression *i = x->fromInfixToExp("-h0+5");
 
-  //Lexer* lexer = new Lexer();
-  //vector<string> vec = lexer->lexer(argc, argv);
+  Lexer* lexer = new Lexer();
+  vector<string> vec = lexer->lexer(argc, argv);
 
 
-  //for (int i = 0; i < vec.size(); i++){
-  //    cout << vec[i] << endl;
-  //}
+  for (int i = 0; i < vec.size(); i++){
+      cout << vec[i] << endl;
+  }
 
 
 }

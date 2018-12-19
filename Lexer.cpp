@@ -1,6 +1,3 @@
-//
-// Created by yuval on 16/12/18.
-//
 
 #include <fstream>
 #include "Lexer.h"
@@ -46,7 +43,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
         throw "error opening file";
     }
     vector<string> data;
-    string token ="";
+    string token;
     for(string line; getline(inputFile, line);){
         for (int j =0; j<line.length(); j++){
             char cur= line[j];
@@ -133,7 +130,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
         }
 
     }
-    return data;
+    return arithmeticProcess(data);
 }
 
 vector<string> Lexer::fromConsoleToData(int argc, char **argv) {
@@ -147,23 +144,58 @@ vector<string> Lexer::fromConsoleToData(int argc, char **argv) {
 
 vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
     vector<string> data;
-    for(int i =0; i < tempData.size(); i++){
+    bool flag = false;
+    for(int i =0; i < tempData.size(); i++) {
 
-    
+        if (isIp(tempData[i]) || isCommand(tempData[i]) || isCmpOperator(tempData[i])) {
+            flag = false;
+            data.push_back(tempData[i]);
+            continue;
+        }
+        if (isOperator(tempData[i])) {
+            string exp;
+            while (isOperator(tempData[i])) {
+                if (flag) {
+                    exp += data.back();
+                    data.pop_back();
+                }
+                exp += tempData[i];
+                exp += tempData[i + 1];
+                if (isOperator(tempData[i + 1])) {
+                    exp += tempData[i + 2];
+                    i += 3;
+                } else {
+                    i += 2;
+                }
+            }
+            data.push_back(exp);
+            --i;
 
-
-
-
+        } else {
+            flag = true;
+            data.push_back(tempData[i]);
+        }
     }
-
+    return data;
 }
 
 bool Lexer::isCommand(string str) {
-
+    return (str == "connect" || str == "print" || str == "=" || str == "bind");
 }
 
 bool Lexer::isIp(string str) {
+    int pointCounter = 0;
+    for(int i = 0; i < str.length(); i++){
+        if (isdigit(str[i]) || str[i] == '.') {
+          if (str[i] == '.'){
+              pointCounter ++;
+          }
+        } else {
+            return false;
+        }
+    }
 
+    return pointCounter == 3;
 }
 
 bool Lexer::isCmpOperator(string str) {

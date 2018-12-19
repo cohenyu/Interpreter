@@ -7,10 +7,12 @@
 
 #include <map>
 #include <vector>
+#include "Command.h"
 using namespace std;
 
-class DefineVarCommand {
+class DefineVarCommand : public Command{
     map<string, double> symbolTable;
+public:
     virtual int doCommand(vector<string> data);
 
 };

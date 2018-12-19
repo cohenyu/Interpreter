@@ -8,7 +8,7 @@
 #include "Number.h"
 #include "Plus.h"
 #include "Div.h"
-
+#include "Var.h"
 
 // Function to find precedence of operators.
 /*
@@ -92,7 +92,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             ops.pop();
 
           // Current exp is a operator
-        } else{
+        } else if (isOperator(infixExpression[i])) {
             if (isNeg){
                 Expression* num = new Number(0);
                 values.push(num);
@@ -120,6 +120,16 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             isNeg = 1;
             // add the operator to the stack
             ops.push(infixExpression[i]);
+        } else {
+            isNeg = 0;
+            string varName;
+            while (i < infixExpression.length() && !isOperator(infixExpression[i]) ){
+                varName += infixExpression[i];
+                i++;
+            }
+            i--;
+            Expression* var = new Var(varName);
+            values.push(var);
         }
     }
 
@@ -155,4 +165,8 @@ Expression *ShuntingYard::createExp(Expression *left, Expression *right, char op
         default:
             return new Minus(left, right);
     }
+}
+
+bool ShuntingYard::isOperator(char c) {
+    return  (c == '+'|| c == '-'|| c == '*' || c == '/');
 }

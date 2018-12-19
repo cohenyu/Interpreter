@@ -14,8 +14,8 @@ add_executable(YuvalandMiriel
         ComparisonCondition.cpp
         ComparisonCondition.h
         Condition.h
-        DataReaderServer.cpp
-        DataReaderServer.h
+        TCPServer.cpp
+        TCPServer.h
         DefineVarCommand.cpp
         DefineVarCommand.h
         Div.cpp
@@ -52,4 +52,4 @@ add_executable(YuvalandMiriel
         ShuntingYard.cpp
         ShuntingYard.h
         UnaryExpression.cpp
-        UnaryExpression.h)
+        UnaryExpression.h Var.cpp Var.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h)

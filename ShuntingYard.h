@@ -16,6 +16,7 @@ class ShuntingYard {
 
 public:
     Expression* fromInfixToExp(string infixExpression);
+    bool isOperator(char c);
 
 };
 

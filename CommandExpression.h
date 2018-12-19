@@ -9,9 +9,12 @@
 #include "Command.h"
 
 class CommandExpression: public Expression {
-    Command* command;
+    Command &command;
+    vector<string> &data;
+    int &index;
+
 public:
-    CommandExpression(Command* command);
+    CommandExpression(Command &command,vector<string>& data, int &index);
     virtual double calculate();
 
 };

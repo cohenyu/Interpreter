@@ -4,6 +4,7 @@
 #include <ostream>
 
 int main(int argc, char **argv) {
+    cout << "try to push from yuval";
    //100
     //ShuntingYard* x = new ShuntingYard;
     //Expression *i = x->fromInfixToExp("100 * ( 2 + 12 ) / 14");

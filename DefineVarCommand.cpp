@@ -4,8 +4,6 @@
 
 #include "DefineVarCommand.h"
 
-int DefineVarCommand::doCommand(vector<string> data) {
-
-
+int DefineVarCommand::doCommand(vector<string> data, int index) {
 
 }

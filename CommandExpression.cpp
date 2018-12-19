@@ -3,11 +3,12 @@
 //
 
 #include "CommandExpression.h"
-CommandExpression::CommandExpression(Command &command, vector<string>& data, int& index):
-    command(command) , data(data), index(index){
+CommandExpression::CommandExpression(Command* command, vector<string>& data, int& index):
+    data(data), index(index){
+    this->command = command;
 
 }
 
 double CommandExpression::calculate() {
-    return this->command.doCommand(this->data, this->index);
+    return this->command->doCommand(this->data, this->index);
 }

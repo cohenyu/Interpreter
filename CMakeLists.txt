@@ -52,4 +52,4 @@ add_executable(YuvalandMiriel
         ShuntingYard.cpp
         ShuntingYard.h
         UnaryExpression.cpp
-        UnaryExpression.h Var.cpp Var.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h)
+        UnaryExpression.h Var.cpp Var.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h SymbolTableManager.cpp SymbolTableManager.h AssignmentCommand.cpp AssignmentCommand.h ConditionParser.cpp ConditionParser.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h)

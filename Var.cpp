@@ -3,11 +3,12 @@
 //
 
 #include "Var.h"
+#include "SymbolTableManager.h"
 
 Var::Var(string name) {
     this->name = name;
 }
 
 double Var::calculate() {
-    //TODO
+    return SymbolTableManager::getValue(name);
 }

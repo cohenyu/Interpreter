@@ -13,7 +13,7 @@ using namespace std;
 class DefineVarCommand : public Command{
     map<string, double> symbolTable;
 public:
-    virtual int doCommand(vector<string> data);
+    virtual int doCommand(vector<string> data, int index);
 
 };
 

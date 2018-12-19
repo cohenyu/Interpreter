@@ -11,7 +11,7 @@ class OpenServerCommand : public Command{
 
 public:
     //TODO
-    OpenServerCommand(); //?
+    OpenServerCommand();
     virtual  int doCommand(vector<string> data,int index);
 };
 

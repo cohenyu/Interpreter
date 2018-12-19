@@ -33,11 +33,17 @@
 using  namespace std;
 
 class Parser {
-
+    map<string, Expression*> expsfCommand;
+    vector<string> data;
+    int index;
 public:
+    Parser(vector<string> data);
+    void parser(vector<string> data);
 
-
+private:
+    map<string, Expression*> initializationMapExp();
 };
+
 
 
 #endif //PROJECT1_MY_PARSER_H

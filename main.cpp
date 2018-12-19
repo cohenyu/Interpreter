@@ -4,7 +4,6 @@
 #include <ostream>
 
 int main(int argc, char **argv) {
-    cout << "hi";
    //100
     //ShuntingYard* x = new ShuntingYard;
     //Expression *i = x->fromInfixToExp("100 * ( 2 + 12 ) / 14");

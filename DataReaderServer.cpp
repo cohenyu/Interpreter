@@ -17,7 +17,7 @@ void startServer(TCPServer server,int rate) {
     server.startListenToConnect();
 
     while (true) {
-        thread(handleClient, server.acceptConnectionFromClient());
+        thread(handleClient, server.acceptConnectionFromClient(),rate);
     }
 }
 

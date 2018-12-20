@@ -8,17 +8,9 @@
 #include <string>
 #include "Expression.h"
 #include <bits/stdc++.h>
+#include "SymbolTableManager.h"
 
-using namespace std;
-class ShuntingYard {
-    int precedence(char op);
-    Expression* createExp(Expression *left, Expression *right, char operation);
 
-public:
-    Expression* fromInfixToExp(string infixExpression);
-    bool isOperator(char c);
-
-};
 
 
 #endif //PROJECT1_MY_SHUNTINGYARD_H

@@ -5,10 +5,20 @@
 #ifndef YUVALANDMIRIEL_TCPCLIENT_H
 #define YUVALANDMIRIEL_TCPCLIENT_H
 
+#include "SocketCommunication.h"
+
+using namespace std;
 
 class TCPClient {
+    int clientSocket;
+    int port;
+    string ipAddress;
+    SocketCommunication socketCommunication;
 public:
-    TCPClient();
+    TCPClient(string ipAddress, int port);
+    void connectToServer();
+    string readFromServer();
+    void writeToServer(string data);
 };
 
 

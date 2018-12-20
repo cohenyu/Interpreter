@@ -6,9 +6,12 @@
 #define YUVALANDMIRIEL_IFCOMMAND_H
 
 #include "ConditionParser.h"
+#include "SymbolTableManager.h"
 
 class IfCommand : public ConditionParser{
+    SymbolTableManager* stm;
 public:
+    IfCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
 };
 

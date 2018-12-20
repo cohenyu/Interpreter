@@ -12,3 +12,8 @@ Expression* BinaryExpression::getLeftExpression() {
 Expression* BinaryExpression::getRightExpression() {
     return this->right;
 }
+
+BinaryExpression::~BinaryExpression() {
+    delete this->left;
+    delete this->right;
+}

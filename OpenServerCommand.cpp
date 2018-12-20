@@ -7,9 +7,13 @@
 #include "ShuntingYard.h"
 #include "DataReaderServer.h"
 // in this case read from the socket at a given rate
+OpenServerCommand::OpenServerCommand(SymbolTableManager* stm) {
+    this->stm= stm;
+}
+
 
 int OpenServerCommand::doCommand(vector<string> data, int index) {
-    ShuntingYard shuntingYard;
+    ShuntingYard shuntingYard(stm);
     Expression *exp;
     int rate, port;
 
@@ -23,4 +27,5 @@ int OpenServerCommand::doCommand(vector<string> data, int index) {
     delete exp;
 
     DataReaderServer(port,rate).acceptConnectionsAndReadData();
+    return 3;
 }

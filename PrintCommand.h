@@ -6,10 +6,12 @@
 #define YUVALANDMIRIEL_PRINTCOMMAND_H
 
 #include "Command.h"
+#include "SymbolTableManager.h"
 
 class PrintCommand: public Command {
+    SymbolTableManager* stm;
 public:
-    PrintCommand(); //TODO
+    PrintCommand(SymbolTableManager* stm); //TODO
     virtual int doCommand(vector<string> data,int index);
 };
 

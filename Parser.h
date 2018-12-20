@@ -36,9 +36,10 @@ class Parser {
     map<string, Expression*> expsfCommand;
     vector<string> data;
     int index;
+    SymbolTableManager* stm;
 public:
-    Parser(vector<string> data);
-    void parser(vector<string> data);
+    Parser(vector<string> data,SymbolTableManager* stm);
+    void parser();
 
 private:
     map<string, Expression*> initializationMapExp();

@@ -1,9 +1,20 @@
 #include <iostream>
 #include "ShuntingYard.h"
 #include "Lexer.h"
+#include "Parser.h"
 #include <ostream>
 
 int main(int argc, char **argv) {
+    //create empty symbolTableManager
+    SymbolTableManager symbolTableManager();
+    //read the file
+   //Lexer* lexer = new Lexer();
+   //vector<string> vec = lexer->lexer(argc, argv);
+   ////parser
+   //Parser* parser =new Parser(vec,symbolTableManager);
+   //parser->parser();
+
+
 
    //100
     //ShuntingYard* x = new ShuntingYard;
@@ -48,17 +59,29 @@ int main(int argc, char **argv) {
     //Expression *i = x->fromInfixToExp("4 * 5 -(-3*-2) / 2");
     //double r = i->calculate();
     //cout << r << endl;
+  //SymbolTableManager *s = new SymbolTableManager();
+  //ShuntingYard* x = new ShuntingYard(s);
+  //Expression *i = x->fromInfixToExp("-3.5+5");
+  //double r = i->calculate();
+  //cout << r << endl;
 
-    ShuntingYard* x = new ShuntingYard;
-    Expression *i = x->fromInfixToExp("-h0+5");
+   //SymbolTableManager *s = new SymbolTableManager();
+   //s->addSymbol("idan", 5);
+   //s->addSymbol("xyz", 2);
+   //ShuntingYard* x = new ShuntingYard(s);
+   //Expression *i = x->fromInfixToExp("(idan-xyz)");
+   //double r = i->calculate();
+   //cout << r << endl;
 
-  Lexer* lexer = new Lexer();
-  vector<string> vec = lexer->lexer(argc, argv);
 
+    Lexer* lexer = new Lexer();
 
-  for (int i = 0; i < vec.size(); i++){
+    vector<string> vec = lexer->lexer(argc, argv);
+    for (int i = 0; i < vec.size(); i++){
+
       cout << vec[i] << endl;
-  }
+
+    }
 
 
 }

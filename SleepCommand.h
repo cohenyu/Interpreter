@@ -6,10 +6,12 @@
 #define YUVALANDMIRIEL_SLEEPCOMMAND_H
 
 #include "Command.h"
+#include "SymbolTableManager.h"
 
 class SleepCommand: public Command {
+    SymbolTableManager* stm;
 public:
-    SleepCommand(); //TODO
+    SleepCommand(SymbolTableManager* stm); //TODO
     virtual int doCommand(vector<string> data,int index);
 
 };

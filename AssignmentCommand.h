@@ -6,8 +6,12 @@
 #define YUVALANDMIRIEL_ASSIGNMENTCOMMAND_H
 
 #include "Command.h"
+#include "SymbolTableManager.h"
+
 class AssignmentCommand: public Command{
+    SymbolTableManager* stm;
 public:
+    AssignmentCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
 };
 

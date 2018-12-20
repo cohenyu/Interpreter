@@ -12,7 +12,7 @@
 
 #define BUFFER_SIZE 1024
 
-TCPServer::TCPServer(int port) {
+TCPServer::TCPServer(int port) {// : socketCommunication(-1)
     this->port = port;
     this->serverSocket = -1;
 }
@@ -23,6 +23,7 @@ void TCPServer::startListenToConnect() {
 
     /* First call to socket() function */
     this->serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    socketCommunication = SocketCommunication();/*this->serverSocket*/
 
     if (this->serverSocket < 0) {
         perror("ERROR opening socket");
@@ -58,7 +59,7 @@ int TCPServer::acceptConnectionFromClient() {
     clilen = sizeof(cli_addr);
 
     /* Accept actual connection from the client */
-    newsockfd = accept(this->serverSocket, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
+    newsockfd = accept(this->serverSocket, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
 
     if (newsockfd < 0) {
         perror("ERROR on accept");
@@ -70,3 +71,10 @@ int TCPServer::acceptConnectionFromClient() {
 
 
 
+string TCPServer::readFromServer() {
+    return socketCommunication.readLineFromSocket(this->serverSocket);
+}
+
+void TCPServer::writeToServer(string data) {
+    socketCommunication.writeToSocket(this->serverSocket, data);
+}

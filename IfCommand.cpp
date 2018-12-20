@@ -3,3 +3,12 @@
 //
 
 #include "IfCommand.h"
+
+
+IfCommand::IfCommand(SymbolTableManager* stm) {
+    this->stm=stm;
+}
+
+int IfCommand::doCommand(vector<string> data, int index) {
+
+}

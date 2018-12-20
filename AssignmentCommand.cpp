@@ -5,6 +5,9 @@
 #include "AssignmentCommand.h"
 
 
+AssignmentCommand::AssignmentCommand(SymbolTableManager *stm) {
+    this->stm = stm;
+}
 int AssignmentCommand::doCommand(vector<string> data, int index) {
 
 

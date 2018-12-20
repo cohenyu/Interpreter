@@ -12,6 +12,7 @@ public:
     virtual double calculate() = 0;
     Expression* getRightExpression();
     Expression* getLeftExpression();
+    ~BinaryExpression();
 };
 
 #endif

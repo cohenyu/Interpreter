@@ -81,7 +81,9 @@ vector<string> Lexer::fromTxtToData(string fileName) {
                 str += line[j];
                 j++;
                 while (counter != 0 && (j < line.length())){
-                    str += line[j];
+                    if(line[j]!= SPACE){
+                        str += line[j];
+                    }
                     if (line[j] == OP_BRACKET){
                         counter++;
                     } else if (line[j] == CL_BRACKET){

@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
+find_package(Threads)
+
 add_executable(YuvalandMiriel
         BinaryExpression.cpp
         BinaryExpression.h
@@ -52,4 +54,7 @@ add_executable(YuvalandMiriel
         ShuntingYard.cpp
         ShuntingYard.h
         UnaryExpression.cpp
-        UnaryExpression.h Var.cpp Var.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h SymbolTableManager.cpp SymbolTableManager.h AssignmentCommand.cpp AssignmentCommand.h ConditionParser.cpp ConditionParser.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h)
+        UnaryExpression.h Var.cpp Var.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h SymbolTableManager.cpp SymbolTableManager.h AssignmentCommand.cpp AssignmentCommand.h ConditionParser.cpp ConditionParser.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h SocketCommunication.cpp SocketCommunication.h)
+
+
+target_link_libraries(YuvalandMiriel ${CMAKE_THREAD_LIBS_INIT})

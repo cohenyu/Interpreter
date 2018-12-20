@@ -6,12 +6,13 @@
 #define YUVALANDMIRIEL_OPENSERVERCOMMAND_H
 
 #include "Command.h"
+#include "SymbolTableManager.h"
 
 class OpenServerCommand : public Command{
-
+    SymbolTableManager* stm;
 public:
     //TODO
-    OpenServerCommand();
+    OpenServerCommand(SymbolTableManager* stm);
     virtual  int doCommand(vector<string> data,int index);
 };
 

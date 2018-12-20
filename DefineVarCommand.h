@@ -8,11 +8,15 @@
 #include <map>
 #include <vector>
 #include "Command.h"
+#include "SymbolTableManager.h"
+
 using namespace std;
 
 class DefineVarCommand : public Command{
     map<string, double> symbolTable;
+    SymbolTableManager* stm;
 public:
+    DefineVarCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
 
 };

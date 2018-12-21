@@ -7,11 +7,11 @@
 /*
  * constractor of parser
  */
-Parser::Parser(vector<string> data,SymbolTableManager* stm) {
+Parser::Parser(vector<string> data, SymbolTableManager* stm) {
+    this->stm = stm;
     this->expsfCommand = this->initializationMapExp();
     this->data = data;
     this->index = 0;
-    this->stm=stm;
 
 }
 /*
@@ -19,11 +19,13 @@ Parser::Parser(vector<string> data,SymbolTableManager* stm) {
  */
 void Parser::parser() {
     //stand on thr cur commend
-    int index = 0;
+    index = 0;
     while (index < this->data.size()){
-        Expression* commandExp = expsfCommand.at(data[index]);
-        if (commandExp != nullptr){
+        if(expsfCommand.find(data[index]) != expsfCommand.end()){
+            Expression* commandExp = expsfCommand.find(data[index])->second;
             index += commandExp->calculate();
+        } else {
+            index++;
         }
     }
 }
@@ -31,22 +33,21 @@ void Parser::parser() {
 map<string, Expression*> Parser::initializationMapExp() {
     map<string, Expression*> expC;
 
+    expC.insert(make_pair(OPEN_DATA_SERVER,new CommandExpression(new OpenServerCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(OPEN_DATA_SERVER,new CommandExpression(new OpenServerCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(CONNECT,new CommandExpression(new ConnectCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(CONNECT,new CommandExpression(new ConnectCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(VAR,new CommandExpression(new DefineVarCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(VAR,new CommandExpression(new DefineVarCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(ASSIGNMENT,new CommandExpression(new AssignmentCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(ASSIGNMENT,new CommandExpression(new AssignmentCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(PRINT,new CommandExpression(new PrintCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(PRINT,new CommandExpression(new PrintCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(SLEEP,new CommandExpression(new SleepCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(SLEEP,new CommandExpression(new SleepCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(IF,new CommandExpression(new IfCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(IF,new CommandExpression(new IfCommand(stm), this->data, this->index)));
-
-    expC.insert(make_pair(WHILE, new CommandExpression(new WhileCommand(stm), this->data, this->index)));
+    expC.insert(make_pair(WHILE, new CommandExpression(new WhileCommand(this->stm), this->data, this->index)));
 
     return expC;
 }

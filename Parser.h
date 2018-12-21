@@ -37,6 +37,7 @@ class Parser {
     vector<string> data;
     int index;
     SymbolTableManager* stm;
+
 public:
     Parser(vector<string> data,SymbolTableManager* stm);
     void parser();

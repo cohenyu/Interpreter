@@ -158,6 +158,7 @@ vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
             string exp;
             while (isOperator(tempData[i])) {
                 if (flag) {
+                    flag = false;
                     exp += data.back();
                     data.pop_back();
                 }
@@ -170,9 +171,9 @@ vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
                     i += 2;
                 }
             }
-            data.push_back(exp);
+            data.push_back(exp); //  todo
             --i;
-
+            //flag = true;
         } else {
             flag = true;
             data.push_back(tempData[i]);

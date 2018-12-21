@@ -7,14 +7,18 @@
 
 
 #include "TCPServer.h"
+#include "SymbolTableManager.h"
+#include <vector>
 
 class DataReaderServer {
     TCPServer server;
     int rate;
 public:
     DataReaderServer(int port, int rate);
-    void acceptConnectionsAndReadData();
+    void acceptConnectionsAndReadData(SymbolTableManager *stm);
+
 };
 
+vector<string> split(const string& str, char delimiter);
 
 #endif //YUVALANDMIRIEL_DATAREADERSERVER_H

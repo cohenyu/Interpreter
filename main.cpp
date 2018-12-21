@@ -2,19 +2,22 @@
 #include "ShuntingYard.h"
 #include "Lexer.h"
 #include "Parser.h"
+#include "DataReaderServer.h"
 #include <ostream>
+#include <unistd.h>
 
 int main(int argc, char **argv) {
-    //create empty symbolTableManager
-    SymbolTableManager symbolTableManager();
-    //read the file
-   //Lexer* lexer = new Lexer();
-   //vector<string> vec = lexer->lexer(argc, argv);
-   ////parser
-   //Parser* parser =new Parser(vec,symbolTableManager);
-   //parser->parser();
 
-
+//    SymbolTableManager stm;
+//    ShuntingYard shuntingYard(&stm);
+//    Expression *exp;
+//    int rate, port;
+//
+//    DataReaderServer(5400,10).acceptConnectionsAndReadData(&stm);
+//
+//    while(true){
+//        sleep(1);
+//    }
 
    //100
     //ShuntingYard* x = new ShuntingYard;
@@ -65,23 +68,30 @@ int main(int argc, char **argv) {
   //double r = i->calculate();
   //cout << r << endl;
 
-   //SymbolTableManager *s = new SymbolTableManager();
-   //s->addSymbol("idan", 5);
-   //s->addSymbol("xyz", 2);
-   //ShuntingYard* x = new ShuntingYard(s);
-   //Expression *i = x->fromInfixToExp("(idan-xyz)");
-   //double r = i->calculate();
-   //cout << r << endl;
+//   SymbolTableManager* stm = new SymbolTableManager; // = new SymbolTableManager();
+//   //s->addSymbol("idan", 5);
+//   //s->addSymbol("xyz", 2);
+//   //ShuntingYard* x = new ShuntingYard(s);
+//   //Expression *i = x->fromInfixToExp("(idan-xyz)");
+//   //double r = i->calculate();
+//   //cout << r << endl;
+//
+//
+//    //create empty symbolTableManager
+//    SymbolTableManager stm;
+//    //read the file
+//    Lexer* lexer = new Lexer();
+//    vector<string> vec = lexer->lexer(argc, argv);
+//    //parser
+//    Parser* parser =new Parser(vec,&stm);
+//    parser->parser();
 
+//    Lexer* lexer = new Lexer();
+//
+//    vector<string> vec = lexer->lexer(argc, argv);
+//    Parser parser = new Parser(vec, &stm);
+//    parser.parser();
 
-    Lexer* lexer = new Lexer();
-
-    vector<string> vec = lexer->lexer(argc, argv);
-    for (int i = 0; i < vec.size(); i++){
-
-      cout << vec[i] << endl;
-
-    }
 
 
 }

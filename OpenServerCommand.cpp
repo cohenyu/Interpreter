@@ -26,6 +26,6 @@ int OpenServerCommand::doCommand(vector<string> data, int index) {
     rate = static_cast<int>(exp->calculate());
     delete exp;
 
-    DataReaderServer(port,rate).acceptConnectionsAndReadData();
+    DataReaderServer(port,rate).acceptConnectionsAndReadData(stm);
     return 3;
 }

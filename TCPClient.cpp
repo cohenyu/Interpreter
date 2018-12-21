@@ -52,8 +52,8 @@ void TCPClient::connectToServer() {
     }
 }
 
-string TCPClient::readFromServer() {
-    return socketCommunication.readLineFromSocket(this->clientSocket);
+string TCPClient::readFromServer(char seperator) {
+    return socketCommunication.readFromSocket(this->clientSocket,seperator);
 }
 
 void TCPClient::writeToServer(string data) {

@@ -10,7 +10,7 @@
 SocketCommunication::SocketCommunication() {
 }
 
-string SocketCommunication::readLineFromSocket(int socket) {
+string SocketCommunication::readFromSocket(int socket, char seperator) {
     char c = '\0';
     int n;
     string data;
@@ -20,7 +20,7 @@ string SocketCommunication::readLineFromSocket(int socket) {
     }
 
     n = read(socket, &c, 1);
-    while (c != MESSAGE_SEPERATOR) {
+    while (c != seperator) {
         if (n < 0) {
             perror("ERROR reading from socket");
             exit(1);

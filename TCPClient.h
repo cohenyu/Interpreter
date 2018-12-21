@@ -17,7 +17,7 @@ class TCPClient {
 public:
     TCPClient(string ipAddress, int port);
     void connectToServer();
-    string readFromServer();
+    string readFromServer(char seperator);
     void writeToServer(string data);
 };
 

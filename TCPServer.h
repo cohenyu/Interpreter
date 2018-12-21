@@ -15,7 +15,7 @@ public:
     TCPServer(int port);
     void startListenToConnect();
     int acceptConnectionFromClient();
-    string readFromServer();
+    string readFromServer(char seperator);
     void writeToServer(string data);
 };
 

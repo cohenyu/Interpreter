@@ -71,8 +71,8 @@ int TCPServer::acceptConnectionFromClient() {
 
 
 
-string TCPServer::readFromServer() {
-    return socketCommunication.readLineFromSocket(this->serverSocket);
+string TCPServer::readFromServer(char seperator) {
+    return socketCommunication.readFromSocket(this->serverSocket, seperator);
 }
 
 void TCPServer::writeToServer(string data) {

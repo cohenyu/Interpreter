@@ -12,7 +12,7 @@ using namespace std;
 class SocketCommunication {
 public:
     SocketCommunication();
-    string readLineFromSocket(int socket);
+    string readFromSocket(int socket, char seperator);
     void writeToSocket(int socket, string data);
 
 };

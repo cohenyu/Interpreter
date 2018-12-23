@@ -24,9 +24,9 @@ class SymbolTableManager {
 public:
     SymbolTableManager();
     void addSymbol(string name, double value);
-    void updateSymbol(string name, double value);
+    void setVarAtSymbolTable(string name, double value);
     double getValue(string name);
-    void updateValuesFromFlightGear(vector<string> values);
+    void getAndUpdateValuesFromFlightGear(vector<string> values);
     void updateDependency(string prm1, double value);
     void updateValue(string prm1, string prm2);
     void createDependency(string prm1, string prm2);

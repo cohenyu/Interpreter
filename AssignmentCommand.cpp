@@ -26,9 +26,9 @@ int AssignmentCommand::doCommand(vector<string> data, int index) {
         ShuntingYard shuntingYard(stm);
         Expression *exp;
         exp = shuntingYard.fromInfixToExp(prm2);
-        // TODO עדכון הפרמטר הראשון
-        //this->stm->updateSymbol(prm2, exp->calculate());
+        int value = exp->calculate();
         delete exp;
+
         // TODO - נעדכן את התלויים של הפרמטר הראשון
     }
     return returnValue;

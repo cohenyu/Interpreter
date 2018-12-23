@@ -19,7 +19,7 @@ void handleClient(int socket, int rate,SymbolTableManager *stm){
 
     while (true) {
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
-        stm->updateValuesFromFlightGear(split(data, COMMA));
+        stm->getAndUpdateValuesFromFlightGear(split(data, COMMA));
 
         cout << data << endl;
         usleep(microSecToSleep);

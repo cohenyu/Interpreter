@@ -12,16 +12,16 @@ SymbolTableManager::SymbolTableManager() {
     this->fromPathToIndex = initPathsToIndex();
     this->socket = -1;
 }
-
+//
 void SymbolTableManager::addSymbol(string name, double value) {
     set<string> vars;
     vars.insert(name);
-    this->symbolTable.insert(make_pair(name, value));
     dependencyMap.insert(make_pair(name, vars));
+    this->symbolTable.insert(make_pair(name, value));
 
 }
 
-void SymbolTableManager::updateSymbol(string name, double value) {
+void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
     if (this->symbolTable.find(name) == this->symbolTable.end()){
         throw "this var does not have declaration";
     }
@@ -66,6 +66,7 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     pathAndIndex.insert(make_pair("/controls/flight/flaps", 20));
     pathAndIndex.insert(make_pair("/controls/engines/engine/throttle", 21));
     pathAndIndex.insert(make_pair("/engines/engine/rpm", 22));
+
     // נעדכן את הערך שלהם
     for(map<string,int>::iterator it = pathAndIndex.begin(); it != pathAndIndex.end(); ++it){
         set<string> vars;
@@ -77,12 +78,17 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     return pathAndIndex;
 }
 
-void SymbolTableManager::updateValuesFromFlightGear(vector<string> values) {
+void SymbolTableManager::getAndUpdateValuesFromFlightGear(vector<string> values) {
     for (int i = 0; i < PATHS_AMOUNT; i++){
         this->flightGearValues[i] = this->strToDouble(values[i]);
     }
-    // TODO - עדכון תלויות
+    for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
+        int index = it->second;
+        double value = this->flightGearValues[index];
+        updateDependency(it->first, value);
+    }
 }
+
 
 double SymbolTableManager::strToDouble(string str) {
     double val = 0;
@@ -125,15 +131,16 @@ void SymbolTableManager::updateValue(string prm1, string prm2) {
 void SymbolTableManager::updateDependency(string prm1, double value) {
     for(string s: dependencyMap.at(prm1)){
         if (this->fromPathToIndex.find(s) != this->fromPathToIndex.end()) {
-            setValueOfFlightGear(prm1, value);
+            setValueOfFlightGear(s, value);
         } else {
-            updateSymbol(s, value);
+            setVarAtSymbolTable(s, value);
         }
     }
 }
 
 void SymbolTableManager::createDependency(string prm1, string prm2) {
     set<string> mainSet;
+    //not found
     if (dependencyMap.find(prm1) == dependencyMap.end()){
         throw "use of undeclared identifier";
 //        set<string> prm1Set;
@@ -156,7 +163,7 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
 
     for(string s: mainSet){
 
-        // נעדכן את הערך שלהם
+        // TODO נעדכן את הערך שלהם
        if (dependencyMap.find(s) != dependencyMap.end()){
            dependencyMap.find(s)->second = mainSet;
        }
@@ -172,7 +179,7 @@ void SymbolTableManager::setSocket(int sock) {
 void SymbolTableManager::setValueOfFlightGear(string path, double value) {
 
     if (this->socket != -1){
-        string data = "set "+ path + ' ' + to_string(value);
+        string data = "set "+ path + ' ' + to_string(value) + "\r\n" ;
         SocketCommunication sc;
         sc.writeToSocket(this->socket, data);
     }

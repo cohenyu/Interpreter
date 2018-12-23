@@ -6,7 +6,7 @@
 #include "Number.h"
 #include "Plus.h"
 #include "Div.h"
-#include "Var.h"
+
 #define MULT '*'
 #define DIV '/'
 #define MINUS '-'

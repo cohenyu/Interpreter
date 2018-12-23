@@ -59,3 +59,7 @@ string TCPClient::readFromServer(char seperator) {
 void TCPClient::writeToServer(string data) {
     socketCommunication.writeToSocket(this->clientSocket, data);
 }
+
+int TCPClient::getSocket() {
+    return this->clientSocket;
+}

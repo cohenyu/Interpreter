@@ -19,7 +19,6 @@ int OpenServerCommand::doCommand(vector<string> data, int index) {
 
     exp = shuntingYard.fromInfixToExp(data[index + 1]);
     port = static_cast<int>(exp->calculate());
-    // TODO destructors
     delete exp;
 
     exp = shuntingYard.fromInfixToExp(data[index + 2]);

@@ -1,13 +1,13 @@
+////
+//// Created by yuval on 17/12/18.
+////
 //
-// Created by yuval on 17/12/18.
+//#include "Equal.h"
 //
-
-#include "Equal.h"
-
-Equal::Equal(Expression *left, Expression *right): ComparisonCondition(left, right) {
-
-}
-
-bool Equal::evaluate() {
-    return this->left->calculate() == this->right->calculate();
-}
+//Equal::Equal(Expression *left, Expression *right): ComparisonCondition(left, right) {
+//
+//}
+//
+//bool Equal::evaluate() {
+//    return this->left->calculate() == this->right->calculate();
+//}

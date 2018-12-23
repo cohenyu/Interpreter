@@ -28,6 +28,7 @@ void Parser::parser() {
             index++;
         }
     }
+    this->stm->closeSockets();
 }
 
 map<string, Expression*> Parser::initializationMapExp() {

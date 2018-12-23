@@ -33,7 +33,6 @@ vector<string> Lexer::lexer(int argc, char **argv) {
     if (string.find("txt") > 0){
         return fromTxtToData(string);
     }
-    return fromConsoleToData(argc,argv);
 }
 
 vector<string> Lexer::fromTxtToData(string fileName) {
@@ -135,14 +134,6 @@ vector<string> Lexer::fromTxtToData(string fileName) {
     return arithmeticProcess(data);
 }
 
-vector<string> Lexer::fromConsoleToData(int argc, char **argv) {
-    vector<string> data;
-    int index = 0;
-    for (int i = 1; i < argc; i++){
-
-    }
-    return  data;
-}
 
 vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
     vector<string> data;
@@ -171,9 +162,8 @@ vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
                     i += 2;
                 }
             }
-            data.push_back(exp); //  todo
+            data.push_back(exp);
             --i;
-            //flag = true;
         } else {
             flag = true;
             data.push_back(tempData[i]);

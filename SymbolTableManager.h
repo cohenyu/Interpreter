@@ -9,6 +9,8 @@
 #include <map>
 #include <vector>
 #include <set>
+#include "TCPClient.h"
+#include "TCPServer.h"
 
 #define PATHS_AMOUNT 23
 
@@ -19,21 +21,25 @@ class SymbolTableManager {
     map<string, int> fromPathToIndex;
     double flightGearValues[PATHS_AMOUNT];
     map<string, set<string>> dependencyMap;
-    int socket;
+    TCPClient* client;
+    TCPServer* server;
 
 public:
     SymbolTableManager();
-    void addSymbol(string name, double value);
-    void setVarAtSymbolTable(string name, double value);
-    double getValue(string name);
-    void getAndUpdateValuesFromFlightGear(vector<string> values);
-    void updateDependency(string prm1, double value);
-    void updateValue(string prm1, string prm2);
+    double getValueOfPathOrVar(string prm);
+    void addVarToSymbolTable(string name, double value);
+    double getValueFromSymbolTable(string name);
+    void setValuesFromFlightGear(vector<string> values);
+    void updateValueAndDependentOn(string prm1, double value);
     void createDependency(string prm1, string prm2);
-    void setSocket(int sock);
-    void setValueOfFlightGear(string path, double value);
+    void setClient(TCPClient* client);
+    void setServer(TCPServer* server);
+    void closeSockets();
 
 private:
+    void setVarOrPath(string prm1, double value);
+    void setVarAtSymbolTable(string name, double value);
+    void setValueOfFlightGear(string path, double value);
     void initializationArrayToZero();
     map<string, int> initPathsToIndex();
     double strToDouble(string str);

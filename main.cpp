@@ -69,8 +69,8 @@ int main(int argc, char **argv) {
   //cout << r << endl;
 
 //   SymbolTableManager* stm = new SymbolTableManager; // = new SymbolTableManager();
-//   //s->addSymbol("idan", 5);
-//   //s->addSymbol("xyz", 2);
+//   //s->addVarToSymbolTable("idan", 5);
+//   //s->addVarToSymbolTable("xyz", 2);
 //   //ShuntingYard* x = new ShuntingYard(s);
 //   //Expression *i = x->fromInfixToExp("(idan-xyz)");
 //   //double r = i->calculate();

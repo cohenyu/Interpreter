@@ -15,6 +15,7 @@ class TCPClient {
     string ipAddress;
     SocketCommunication socketCommunication;
 public:
+    int getSocket();
     TCPClient(string ipAddress, int port);
     void connectToServer();
     string readFromServer(char seperator);

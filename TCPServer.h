@@ -17,6 +17,7 @@ public:
     int acceptConnectionFromClient();
     string readFromServer(char seperator);
     void writeToServer(string data);
+    int getSocket();
 };
 
 #endif //PROJECT1_MY_DATAREADERSERVER_Ha

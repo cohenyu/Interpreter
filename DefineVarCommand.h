@@ -13,7 +13,6 @@
 using namespace std;
 
 class DefineVarCommand : public Command{
-    map<string, double> symbolTable;
     SymbolTableManager* stm;
 public:
     DefineVarCommand(SymbolTableManager* stm);

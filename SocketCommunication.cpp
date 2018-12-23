@@ -16,7 +16,7 @@ string SocketCommunication::readFromSocket(int socket, char seperator) {
     string data;
 
     if (socket < 0){
-        // TODO ERROR
+        perror("ERROR socket not found");
     }
 
     n = read(socket, &c, 1);
@@ -37,7 +37,7 @@ void SocketCommunication::writeToSocket(int socket, string data) {
     int n = write(socket, data.c_str(), data.length());
 
     if (socket < 0){
-        // TODO ERROR
+        perror("ERROR socket not found");
     }
 
     if (n < 0) {

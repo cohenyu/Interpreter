@@ -10,7 +10,7 @@ DefineVarCommand::DefineVarCommand(SymbolTableManager *stm) {
 
 int DefineVarCommand::doCommand(vector<string> data, int index) {
     string varName = data[index +1];
-    this->stm->addSymbol(varName, 0);
+    this->stm->addVarToSymbolTable(varName, 0);
 
     return 2;
 }

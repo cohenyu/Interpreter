@@ -12,14 +12,13 @@
 using namespace std;
 class Lexer {
 
-    vector<string> fromTxtToData (string fileName);
-
-    vector<string> fromConsoleToData(int argc, char* argv[]);
-    vector<string> arithmeticProcess(vector<string> data);
+private:
     bool isCommand(string str);
     bool isIp(string str);
     bool isCmpOperator(string str);
     bool isOperator(string str);
+    vector<string> fromTxtToData (string fileName);
+    vector<string> arithmeticProcess(vector<string> data);
 public:
     vector<string> lexer(int argc ,char* argv[]);
 

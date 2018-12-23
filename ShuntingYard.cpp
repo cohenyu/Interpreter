@@ -162,7 +162,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             }
             i--;
             //look for the var values at the map
-            double numVar = this->symbolTableManager->getValue(varName);
+            double numVar = this->symbolTableManager->getValueFromSymbolTable(varName);
             Expression* var = new Number(numVar);
             values.push(var);
         }

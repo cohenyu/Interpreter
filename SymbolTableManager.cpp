@@ -3,6 +3,10 @@
 #include "Expression.h"
 #include "ShuntingYard.h"
 #include "SocketCommunication.h"
+
+#include <unistd.h>
+
+
 #define DOT '.'
 
 using namespace std;
@@ -10,17 +14,28 @@ using namespace std;
 SymbolTableManager::SymbolTableManager() {
     initializationArrayToZero();
     this->fromPathToIndex = initPathsToIndex();
-    this->socket = -1;
+    this->server = nullptr;
+    this->client = nullptr;
 }
-//
-void SymbolTableManager::addSymbol(string name, double value) {
+
+/**
+ * The function adds a variable to the symbol table with the given value.
+ * @param name a var
+ * @param value the value of the var
+ */
+void SymbolTableManager::addVarToSymbolTable(string name, double value) {
     set<string> vars;
     vars.insert(name);
-    dependencyMap.insert(make_pair(name, vars));
     this->symbolTable.insert(make_pair(name, value));
+    dependencyMap.insert(make_pair(name, vars));
 
 }
 
+/**
+ * The function updates the given  value to the  given variable on the symbol table.
+ * @param name the var
+ * @param value the value
+ */
 void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
     if (this->symbolTable.find(name) == this->symbolTable.end()){
         throw "this var does not have declaration";
@@ -28,19 +43,33 @@ void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
     this->symbolTable.find(name)->second = value;
 }
 
-double SymbolTableManager::getValue(string name) {
+/**
+ * The function returns the current value of a given var.
+ * @param name the var
+ * @return the value of the var
+ */
+double SymbolTableManager::getValueFromSymbolTable(string name) {
     if(this->symbolTable.find(name) != this->symbolTable.end()){
         return this->symbolTable.find(name)->second;
     }
     throw "var not found";
 }
 
+/**
+ * The function initializes the array of the values ​​from the flight gear to zero.
+ */
 void SymbolTableManager::initializationArrayToZero() {
     for(int i = 0; i < PATHS_AMOUNT; i++){
         this->flightGearValues[i] = 0;
     }
 }
 
+/**
+ * The function initializes map and gives each path the appropriate index in the array so that
+ * if we search for any path we will know exactly which index in the array to find its value.
+ * In addition, the function puts each path in the dependency map with a set that contains itself.
+ * @return a initialized map with path and index
+ */
 map<string, int> SymbolTableManager::initPathsToIndex() {
     map<string, int> pathAndIndex;
     pathAndIndex.insert(make_pair("/instrumentation/airspeed-indicator/indicated-speed-kt", 0));
@@ -67,34 +96,25 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     pathAndIndex.insert(make_pair("/controls/engines/engine/throttle", 21));
     pathAndIndex.insert(make_pair("/engines/engine/rpm", 22));
 
-    // נעדכן את הערך שלהם
     for(map<string,int>::iterator it = pathAndIndex.begin(); it != pathAndIndex.end(); ++it){
         set<string> vars;
         vars.insert(it->first);
         dependencyMap.insert(make_pair(it->first, vars));
     }
-
-
     return pathAndIndex;
 }
 
-void SymbolTableManager::getAndUpdateValuesFromFlightGear(vector<string> values) {
-    for (int i = 0; i < PATHS_AMOUNT; i++){
-        this->flightGearValues[i] = this->strToDouble(values[i]);
-    }
-    for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
-        int index = it->second;
-        double value = this->flightGearValues[index];
-        updateDependency(it->first, value);
-    }
-}
 
-
+/**
+ * The function gets a string and turns it into a double number.
+ * @param str string number
+ * @return the double value
+ */
 double SymbolTableManager::strToDouble(string str) {
     double val = 0;
     int i = 0;
 
-    while(i < str.length() && isdigit(str[i])) { // str[i] != DOT
+    while(i < str.length() && isdigit(str[i])) {
         val = (val * 10) + (str[i] - '0');
         i++;
     }
@@ -108,43 +128,98 @@ double SymbolTableManager::strToDouble(string str) {
             i++;
         }
     }
-
     return  val/pow(10,couter);
 }
 
-void SymbolTableManager::updateValue(string prm1, string prm2) {
+/**
+ * this function set the TCPClient member
+ * @param client the TCPClient
+ */
+void SymbolTableManager::setClient(TCPClient* client) {
+    this->client = client;
+}
+
+/**
+ * this function set the TCPServer member
+ * @param server the TCPServer
+ */
+void SymbolTableManager::setServer(TCPServer* server) {
+    this->server = server;
+}
+
+
+/**
+ * The function accepts the values ​​from the simulator, puts these values ​​in
+ * the value array, and updates the variables that depend on the path.
+ * @param values the vector with the values
+ */
+void SymbolTableManager::setValuesFromFlightGear(vector<string> values) {
+    for (int i = 0; i < PATHS_AMOUNT; i++){
+        this->flightGearValues[i] = this->strToDouble(values[i]);
+    }
+    for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
+        int index = it->second;
+        double value = this->flightGearValues[index];
+        updateValueAndDependentOn(it->first,value);
+    }
+}
+
+/**
+ * The function accepts a string and checks whether it is a path or a variable and accordingly returns the value.
+ * @param prm var or path
+ * @return his value
+ */
+double SymbolTableManager::getValueOfPathOrVar(string prm) {
     double value;
-    if (this->fromPathToIndex.find(prm2) != this->fromPathToIndex.end()) {
-        int index = fromPathToIndex.at(prm2);
+    if (this->fromPathToIndex.find(prm) != this->fromPathToIndex.end()) {
+        int index = fromPathToIndex.at(prm);
         value = flightGearValues[index];
     } else {
         ShuntingYard sy(this);
-        Expression* exp = sy.fromInfixToExp(prm2);
+        Expression* exp = sy.fromInfixToExp(prm);
         value = exp->calculate();
         delete exp;
     }
-
-  updateDependency(prm1, value);
-
+    return value;
 }
 
-void SymbolTableManager::updateDependency(string prm1, double value) {
-    for(string s: dependencyMap.at(prm1)){
-        if (this->fromPathToIndex.find(s) != this->fromPathToIndex.end()) {
-            setValueOfFlightGear(s, value);
-        } else {
-            setVarAtSymbolTable(s, value);
-        }
+/**
+ * The function accepts a variable or a path and accordingly updates its value with the given value.
+ * @param prm1 var or path
+ * @param value the value to update
+ */
+void SymbolTableManager::setVarOrPath(string prm1, double value) {
+    if (this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()) {
+        setValueOfFlightGear(prm1, value);
+    } else {
+        setVarAtSymbolTable(prm1, value);
     }
 }
 
+/**
+ * The function accepts a variable or a path and accordingly updates its value
+ * with the given value and also updates all dependent variables.
+ * @param prm1 the var
+ * @param value the value to update
+ */
+void SymbolTableManager::updateValueAndDependentOn(string prm1, double value) {
+    for(string s: dependencyMap.at(prm1)){
+        this->setVarOrPath(s, value);
+    }
+}
+
+/**
+ * The function implements the bind command. It creates a dependency between two parameters.
+ * After the two parameters will behave as the same variable.
+ * In addition, the function update the new value to the first parameter.
+ * @param prm1 first parameter
+ * @param prm2 second parameter
+ */
 void SymbolTableManager::createDependency(string prm1, string prm2) {
     set<string> mainSet;
     //not found
     if (dependencyMap.find(prm1) == dependencyMap.end()){
         throw "use of undeclared identifier";
-//        set<string> prm1Set;
-//        dependencyMap.insert(make_pair(prm1, prm1Set));
     } else {
         for (string s: dependencyMap.find(prm1)->second) {
             mainSet.insert(s);
@@ -153,34 +228,39 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
 
     if (dependencyMap.find(prm2) == dependencyMap.end()){
         throw "use of undeclared identifier";
-//        set<string> prm2Set;
-//        dependencyMap.insert(make_pair(prm2, prm2Set));
     } else {
         for (string s: dependencyMap.find(prm2)->second) {
             mainSet.insert(s);
         }
     }
 
+    double  value = getValueOfPathOrVar(prm2);
     for(string s: mainSet){
-
-        // TODO נעדכן את הערך שלהם
+        setVarOrPath(prm1, value);
        if (dependencyMap.find(s) != dependencyMap.end()){
            dependencyMap.find(s)->second = mainSet;
        }
-
     }
 }
 
-void SymbolTableManager::setSocket(int sock) {
-    // TODO איזה סוקט בדיוק לשמור? מהלקוח או מהשרת
-    this->socket = sock;
+/**
+ * The function sends to the simulator a new value to a specific path and updates it.
+ * @param path  the path to change
+ * @param value the new value
+ */
+void SymbolTableManager::setValueOfFlightGear(string path, double value) {
+    if (this->client->getSocket() != -1){
+        string data = "set "+ path + ' ' + to_string(value) + "\r\n" ;
+        this->client->writeToServer(data);
+    }
 }
 
-void SymbolTableManager::setValueOfFlightGear(string path, double value) {
+void SymbolTableManager::closeSockets() {
 
-    if (this->socket != -1){
-        string data = "set "+ path + ' ' + to_string(value) + "\r\n" ;
-        SocketCommunication sc;
-        sc.writeToSocket(this->socket, data);
+    if (this->client != nullptr){
+        close(this->client->getSocket());
+    }
+    if (this->server != nullptr){
+        close(this->server->getSocket());
     }
 }

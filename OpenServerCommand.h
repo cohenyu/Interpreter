@@ -11,7 +11,6 @@
 class OpenServerCommand : public Command{
     SymbolTableManager* stm;
 public:
-    //TODO
     OpenServerCommand(SymbolTableManager* stm);
     virtual  int doCommand(vector<string> data,int index);
 };

@@ -13,7 +13,6 @@
 using namespace std;
 
 class ConditionParser : public Command{
-    //TODO
 protected:
     Expression* right;
     Expression* left;

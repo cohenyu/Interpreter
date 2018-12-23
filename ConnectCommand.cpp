@@ -19,12 +19,10 @@ int ConnectCommand::doCommand(vector<string> data, int index) {
     
     exp = shuntingYard.fromInfixToExp(data[index + 2]);
     port = static_cast<int>(exp->calculate());
-    // TODO destructors
     delete exp;
 
     TCPClient client(ipAddress,port);
     client.connectToServer();
-    // TODO add client to symbol table
+    this->stm->setClient(&client);
     return 3;
-
 }

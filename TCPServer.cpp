@@ -23,6 +23,7 @@ void TCPServer::startListenToConnect() {
 
     /* First call to socket() function */
     this->serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+
     socketCommunication = SocketCommunication();/*this->serverSocket*/
 
     if (this->serverSocket < 0) {
@@ -77,4 +78,8 @@ string TCPServer::readFromServer(char seperator) {
 
 void TCPServer::writeToServer(string data) {
     socketCommunication.writeToSocket(this->serverSocket, data);
+}
+
+int TCPServer::getSocket() {
+    return this->serverSocket;
 }

@@ -13,9 +13,6 @@ class CommandExpression: public Expression {
     Command*  command;
     vector<string> &data;
     int &index;
-    //SymbolTableManager stm;
-
-
 public:
     CommandExpression(Command* command,vector<string>& data, int &index);
     virtual double calculate();

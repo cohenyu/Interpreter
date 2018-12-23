@@ -22,7 +22,6 @@ public:
     Expression* fromInfixToExp(string infixExpression);
 
 private:
-
     int precedence(char op);
     Expression* createExp(Expression *left, Expression *right, char operation);
     bool isOperator(char c);

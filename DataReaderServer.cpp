@@ -19,12 +19,11 @@ void handleClient(int socket, int rate,SymbolTableManager *stm){
 
     while (true) {
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
-        stm->getAndUpdateValuesFromFlightGear(split(data, COMMA));
+        stm->setValuesFromFlightGear(split(data, COMMA));
 
         cout << data << endl;
         usleep(microSecToSleep);
     }
-    // TODO read at the wanted rate
 }
 
 void startServer(TCPServer server,int rate,SymbolTableManager *stm) {
@@ -41,7 +40,9 @@ DataReaderServer::DataReaderServer(int port, int rate) : server(port){
 }
 
 void DataReaderServer::acceptConnectionsAndReadData(SymbolTableManager *stm) {
+    stm->setServer(&server);
     thread t(startServer,server,rate,stm);
+
     t.detach();
 }
 

@@ -13,8 +13,6 @@ class ConnectCommand : public Command{
     SymbolTableManager* stm;
 public:
     ConnectCommand(SymbolTableManager* stm);
-
-    // TODO
     virtual  int doCommand(vector<string> data,int index);
 
 };

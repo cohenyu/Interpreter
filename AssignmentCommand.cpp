@@ -14,22 +14,22 @@ AssignmentCommand::AssignmentCommand(SymbolTableManager *stm) {
 
 int AssignmentCommand::doCommand(vector<string> data, int index) {
     int returnValue;
-    string dest = data[index - 1];
+    string prm1 = data[index - 1];
     if (data[index + 1] == BIND){
-        returnValue = 2;
-        string sorc = data[index + 2];
+        string prm2 = data[index + 2];
+        returnValue = 3;
         // TODO - ניצור תלות
 
     } else {
-        returnValue = 3;
-        string sorc = data[index + 1];
+        returnValue = 2;
+        string prm2 = data[index + 1];
         ShuntingYard shuntingYard(stm);
         Expression *exp;
-        exp = shuntingYard.fromInfixToExp(sorc);
-        this->stm->updateSymbol(dest, exp->calculate());
+        exp = shuntingYard.fromInfixToExp(prm2);
+        // TODO עדכון הפרמטר הראשון
+        //this->stm->updateSymbol(prm2, exp->calculate());
         delete exp;
-        // TODO - נעדכן את התלויים
-        // האם עדכון והוספה של תלות זו אותה פונקציה?
+        // TODO - נעדכן את התלויים של הפרמטר הראשון
     }
     return returnValue;
 }

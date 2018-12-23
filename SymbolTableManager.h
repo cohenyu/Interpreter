@@ -19,6 +19,7 @@ class SymbolTableManager {
     map<string, int> fromPathToIndex;
     double flightGearValues[PATHS_AMOUNT];
     map<string, set<string>> dependencyMap;
+    int socket;
 
 public:
     SymbolTableManager();
@@ -26,11 +27,14 @@ public:
     void updateSymbol(string name, double value);
     double getValue(string name);
     void updateValuesFromFlightGear(vector<string> values);
-    void updateDependency(string prm1, string prm2);
-    void addDependency(string prm1, string prm2);
+    void updateDependency(string prm1, double value);
+    void updateValue(string prm1, string prm2);
+    void createDependency(string prm1, string prm2);
+    void setSocket(int sock);
+    void setValueOfFlightGear(string path, double value);
 
 private:
-    void initializationToZero();
+    void initializationArrayToZero();
     map<string, int> initPathsToIndex();
     double strToDouble(string str);
 };

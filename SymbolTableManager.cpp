@@ -1,19 +1,23 @@
 #include <math.h>
 #include "SymbolTableManager.h"
+#include "Expression.h"
+#include "ShuntingYard.h"
+#include "SocketCommunication.h"
 #define DOT '.'
 
 using namespace std;
 
 SymbolTableManager::SymbolTableManager() {
-    initializationToZero();
+    initializationArrayToZero();
     this->fromPathToIndex = initPathsToIndex();
+    this->socket = -1;
 }
 
 void SymbolTableManager::addSymbol(string name, double value) {
     set<string> vars;
     vars.insert(name);
-    dependencyMap.insert(make_pair(name, vars));
     this->symbolTable.insert(make_pair(name, value));
+    dependencyMap.insert(make_pair(name, vars));
 
 }
 
@@ -31,7 +35,7 @@ double SymbolTableManager::getValue(string name) {
     throw "var not found";
 }
 
-void SymbolTableManager::initializationToZero() {
+void SymbolTableManager::initializationArrayToZero() {
     for(int i = 0; i < PATHS_AMOUNT; i++){
         this->flightGearValues[i] = 0;
     }
@@ -102,20 +106,38 @@ double SymbolTableManager::strToDouble(string str) {
     return  val/pow(10,couter);
 }
 
-void SymbolTableManager::updateDependency(string prm1, string prm2) {
-    if (this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()) {
-        // נשלח בקשה לשרת
+void SymbolTableManager::updateValue(string prm1, string prm2) {
+    double value;
+    if (this->fromPathToIndex.find(prm2) != this->fromPathToIndex.end()) {
+        int index = fromPathToIndex.at(prm2);
+        value = flightGearValues[index];
     } else {
-        // TODO - ERROR IF THE PRM NOT FOUND - ?
+        ShuntingYard sy(this);
+        Expression* exp = sy.fromInfixToExp(prm2);
+        value = exp->calculate();
+        delete exp;
     }
 
+  updateDependency(prm1, value);
 
 }
 
-void SymbolTableManager::addDependency(string prm1, string prm2) {
+void SymbolTableManager::updateDependency(string prm1, double value) {
+    for(string s: dependencyMap.at(prm1)){
+        if (this->fromPathToIndex.find(s) != this->fromPathToIndex.end()) {
+            setValueOfFlightGear(prm1, value);
+        } else {
+            updateSymbol(s, value);
+        }
+    }
+}
+
+void SymbolTableManager::createDependency(string prm1, string prm2) {
     set<string> mainSet;
     if (dependencyMap.find(prm1) == dependencyMap.end()){
-        dependencyMap.insert(make_pair(prm1, mainSet));
+        throw "use of undeclared identifier";
+//        set<string> prm1Set;
+//        dependencyMap.insert(make_pair(prm1, prm1Set));
     } else {
         for (string s: dependencyMap.find(prm1)->second) {
             mainSet.insert(s);
@@ -123,7 +145,9 @@ void SymbolTableManager::addDependency(string prm1, string prm2) {
     }
 
     if (dependencyMap.find(prm2) == dependencyMap.end()){
-        dependencyMap.insert(make_pair(prm2, mainSet));
+        throw "use of undeclared identifier";
+//        set<string> prm2Set;
+//        dependencyMap.insert(make_pair(prm2, prm2Set));
     } else {
         for (string s: dependencyMap.find(prm2)->second) {
             mainSet.insert(s);
@@ -131,10 +155,25 @@ void SymbolTableManager::addDependency(string prm1, string prm2) {
     }
 
     for(string s: mainSet){
+
         // נעדכן את הערך שלהם
        if (dependencyMap.find(s) != dependencyMap.end()){
            dependencyMap.find(s)->second = mainSet;
        }
 
+    }
+}
+
+void SymbolTableManager::setSocket(int sock) {
+    // TODO איזה סוקט בדיוק לשמור? מהלקוח או מהשרת
+    this->socket = sock;
+}
+
+void SymbolTableManager::setValueOfFlightGear(string path, double value) {
+
+    if (this->socket != -1){
+        string data = "set "+ path + ' ' + to_string(value);
+        SocketCommunication sc;
+        sc.writeToSocket(this->socket, data);
     }
 }

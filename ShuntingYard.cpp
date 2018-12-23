@@ -1,6 +1,4 @@
-//
-// Created by yuval on 16/12/18.
-//
+
 
 #include "ShuntingYard.h"
 #include "Minus.h"
@@ -21,12 +19,12 @@
 
 
 /*
- * constractor that get the SymbolTableManager.
+ * this the constructor of ShuntingYard that get the SymbolTableManager.
  */
 ShuntingYard::ShuntingYard(SymbolTableManager* symbolTableManager) {
     this->symbolTableManager = symbolTableManager;
 }
-// Function to find precedence of operators.
+
 /*
  * this function bring precedence to operators
  * its return int that represent the precedence
@@ -48,12 +46,14 @@ int ShuntingYard::precedence(char op) {
  * this function get a string of numbers as infix and returns an Expression
  * as pre fix, that we can calculate.
  * we have 2 stacks that storage the values(Expression) and the operators
+ * we have a flag that help us to calculate a negative Expression.
  */
 Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
     // stack to store the Expression.
     stack <Expression*> values;
     // stack to store operators.
     stack <char> ops;
+    //flag that symbole that we enter to the values stack a neg number
     int isNeg =1;
     //run over the infix string
     for(int  i = 0; i < infixExpression.length(); i++){
@@ -62,23 +62,25 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
         if(infixExpression[i] == ' ')
             continue;
 
-            // Current exp is an opening brace, push it to 'ops'
+        // Current exp is an opening brace, push it to 'ops'
         else if(infixExpression[i] == OP_BRACKET){
             ops.push(infixExpression[i]);
         }
 
-            // Current exp is a number, push it to stack of Expression
+        // Current exp is a number, push it to stack of Expression
         else if(isdigit(infixExpression[i])){
+            //turn off the flag
             isNeg = 0;
             double val = 0;
 
-            // There may be more than one digits in number.
+            // There may be more than one digits in number,so we continue to read the number
             while(i < infixExpression.length() && isdigit(infixExpression[i])&& (infixExpression[i] !=DOT))
             {
                 val = (val * 10) + (infixExpression[i] - '0');
                 i++;
 
             }
+            //Counts the number of digits after the  decimal dot
             int couter =0;
             if (infixExpression[i] == DOT){
                 i++;
@@ -96,7 +98,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             values.push(num);
         }
 
-            // Closing brace encountered, solve entire brace.
+        // Closing brace encountered, solve entire brace.
         else if(infixExpression[i] == CL_BRACKET) {
             //while we didnt finish the stack and we dont saw"("
             while (ops.top() != OP_BRACKET && !ops.empty()){
@@ -120,7 +122,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             //remove the operator '(' from the queue
             ops.pop();
 
-            // Current exp is a operator
+            // if the current char is an operator
         } else if (isOperator(infixExpression[i])) {
             //if its negative operator we put zero at the stack
             if (isNeg){
@@ -129,7 +131,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             }
             /*
              * While top of 'ops' has same or greater precedence to current
-             * token, which is an operator.and we dont have a neggative sign.
+             * token, which is an operator.and we dont have a negative sign.
              * Apply operator on top of 'ops' to top two elements in
              * values stack.
              * */
@@ -150,6 +152,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
             isNeg = 1;
             // add the operator to the stack
             ops.push(infixExpression[i]);
+            //if its an var that we need to bring his value from the symbolTableManager
         } else {
             isNeg = 0;
             string varName;
@@ -166,7 +169,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
     }
 
     while (!ops.empty()){
-        //remove the operator from the queue and put in the stack
+        //remove the operator from the stack of perators and put in the stack of values
         Expression *right = values.top();
         values.pop();
 

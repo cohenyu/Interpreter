@@ -4,6 +4,14 @@
 #define PROJECT1_MY_BINARYEXPRESSION_H
 
 #include "Expression.h"
+/*
+ * this class represent a binary Expression, its heiress from Expression
+ * its also an abstract class .
+ * the class composed from 2 Expression. left and right .
+ * its have the methods "get left Expression" and "get right Expression"
+ * and its also have a distractor.
+ *
+ */
 class BinaryExpression :public Expression{
     Expression* right;
     Expression* left;

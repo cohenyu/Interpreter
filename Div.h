@@ -6,6 +6,9 @@
 #define PROJECT1_MY_DIV_H
 
 #include "BinaryExpression.h"
+/*
+ * this class represent the div operation,its heiress from BinaryExpression
+ */
 class Div :public BinaryExpression{
 public:
     Div(Expression* left, Expression* right);

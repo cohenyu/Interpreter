@@ -3,6 +3,10 @@
 #define PROJECT1_MY_MUL_H
 
 #include "BinaryExpression.h"
+/*
+ * this class represent the Multiplication operation,
+ * its heiress from BinaryExpression
+ */
 class Mul :public BinaryExpression{
 
 public:

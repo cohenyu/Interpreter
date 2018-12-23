@@ -1,6 +1,4 @@
-//
-// Created by yuval on 16/12/18.
-//
+
 
 #ifndef PROJECT1_MY_SHUNTINGYARD_H
 #define PROJECT1_MY_SHUNTINGYARD_H
@@ -9,7 +7,12 @@
 #include "Expression.h"
 #include <bits/stdc++.h>
 #include "SymbolTableManager.h"
-
+/*
+ * this class represent the object ShuntingYard-that is an algoritem of Dijkstra
+ * the algoritem get a string as infix its orgenize in queue as postfix.
+ * and in reverse reading of the queue We will know the expression we must
+ * calculate as prefix
+ */
 using namespace std;
 class ShuntingYard {
     SymbolTableManager* symbolTableManager;

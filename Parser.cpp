@@ -3,6 +3,7 @@
 //
 
 #include "Parser.h"
+#include "EnterC.h"
 
 /*
  * constractor of parser
@@ -15,7 +16,8 @@ Parser::Parser(vector<string> data, SymbolTableManager* stm) {
 
 }
 /*
- * parser function
+ * The function passes over the main vector.
+ * When it encounters a string that represents a command it triggers it.
  */
 void Parser::parser() {
     //stand on thr cur commend
@@ -31,6 +33,11 @@ void Parser::parser() {
     this->stm->closeSockets();
 }
 
+/**
+ * The function initializes the command map. For each command, it puts the key on the map representing the
+ * name of the command and the value representing the command itself.
+ * @return the initialized map
+ */
 map<string, Expression*> Parser::initializationMapExp() {
     map<string, Expression*> expC;
 
@@ -49,6 +56,8 @@ map<string, Expression*> Parser::initializationMapExp() {
     expC.insert(make_pair(IF,new CommandExpression(new IfCommand(this->stm), this->data, this->index)));
 
     expC.insert(make_pair(WHILE, new CommandExpression(new WhileCommand(this->stm), this->data, this->index)));
+
+    expC.insert(make_pair(ENTERC, new CommandExpression(new EnterC(), this->data, this->index)));
 
     return expC;
 }

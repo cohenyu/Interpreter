@@ -6,11 +6,11 @@
 #include "OpenServerCommand.h"
 #include "ShuntingYard.h"
 #include "DataReaderServer.h"
-// in this case read from the socket at a given rate
+
+// constructor
 OpenServerCommand::OpenServerCommand(SymbolTableManager* stm) {
     this->stm= stm;
 }
-
 
 int OpenServerCommand::doCommand(vector<string> data, int index) {
     ShuntingYard shuntingYard(stm);

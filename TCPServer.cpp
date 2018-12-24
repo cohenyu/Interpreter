@@ -18,6 +18,8 @@ TCPServer::TCPServer(int port) {// : socketCommunication(-1)
 }
 
 void TCPServer::startListenToConnect() {
+    //todo
+    sleep(30);
     // initalize the sockets variables
     struct sockaddr_in serv_addr;
 

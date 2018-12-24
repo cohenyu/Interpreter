@@ -8,16 +8,17 @@
 
 int main(int argc, char **argv) {
 
-//    SymbolTableManager stm;
-//    ShuntingYard shuntingYard(&stm);
-//    Expression *exp;
-//    int rate, port;
-//
-//    DataReaderServer(5400,10).acceptConnectionsAndReadData(&stm);
-//
-//    while(true){
-//        sleep(1);
-//    }
+    SymbolTableManager stm;
+    ShuntingYard shuntingYard(&stm);
+    Expression *exp;
+    int rate, port;
+
+    DataReaderServer(5400, 10).acceptConnectionsAndReadData(&stm);
+
+    while (true) {
+        sleep(1);
+    }
+}
 
    //100
     //ShuntingYard* x = new ShuntingYard;
@@ -85,13 +86,4 @@ int main(int argc, char **argv) {
 //    //parser
 //    Parser* parser =new Parser(vec,&stm);
 //    parser->parser();
-
-//    Lexer* lexer = new Lexer();
-//
-//    vector<string> vec = lexer->lexer(argc, argv);
-//    Parser parser = new Parser(vec, &stm);
-//    parser.parser();
-
-
-
-}
+//}

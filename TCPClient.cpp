@@ -12,7 +12,7 @@
 
 #include <string.h>
 #include <string>
-
+#include "iostream"
 #include "TCPClient.h"
 
 TCPClient::TCPClient(string ipAddress, int port) {
@@ -44,12 +44,14 @@ void TCPClient::connectToServer() {
     serv_addr.sin_family = AF_INET;
     bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(this->port);
-
+// todo
+   // sleep(10);
     /* Now connect to the server */
     if (connect(this->clientSocket, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
         exit(1);
     }
+    cout << "connected" << endl;
 }
 
 string TCPClient::readFromServer(char seperator) {

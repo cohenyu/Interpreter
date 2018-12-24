@@ -9,10 +9,18 @@
 #define THIRD_PRM 3
 #define START_EXCUT 5
 
+// constructor
 WhileCommand::WhileCommand(SymbolTableManager* stm) {
     this->stm=stm;
 }
 
+/**
+ * while loop. The function takes the condition, and as long as the condition is true,
+ * it parse the the information vector that contain the commands in the scope.
+ * @param data the commands
+ * @param index data
+ * @return How much to move in the main vector to read the next command.
+ */
 int WhileCommand::doCommand(vector<string> data, int index) {
 
     string leftStr = data[index + FIRST_PRM];

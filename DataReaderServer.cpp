@@ -13,24 +13,46 @@
 
 using namespace std;
 
-void handleClient(int socket, int rate,SymbolTableManager *stm){
+//void handleClient(int socket, int rate,SymbolTableManager *stm){
+//    int microSecToSleep = (1000/rate) * 1000;
+//    SocketCommunication socketCommunication;
+//
+//    while (true) {
+//        string data = socketCommunication.readFromSocket(socket,NEW_LINE);
+//        stm->setValuesFromFlightGear(split(data, COMMA));
+//
+//        cout <<data << endl;
+//        usleep(microSecToSleep);
+//    }
+//}
+
+void handleClient(int socket, int rate){
     int microSecToSleep = (1000/rate) * 1000;
     SocketCommunication socketCommunication;
 
     while (true) {
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
-        stm->setValuesFromFlightGear(split(data, COMMA));
+        //stm->setValuesFromFlightGear(split(data, COMMA));
 
-        cout << data << endl;
+        cout <<data << endl;
         usleep(microSecToSleep);
     }
 }
+
+//void startServer(TCPServer server,int rate,SymbolTableManager *stm) {
+//    server.startListenToConnect();
+//
+//    while (true) {
+//        thread t(handleClient, server.acceptConnectionFromClient(),rate, stm);
+//        t.detach();
+//    }
+//}
 
 void startServer(TCPServer server,int rate,SymbolTableManager *stm) {
     server.startListenToConnect();
 
     while (true) {
-        thread t(handleClient, server.acceptConnectionFromClient(),rate, stm);
+        thread t(handleClient, server.acceptConnectionFromClient(),rate);
         t.detach();
     }
 }
@@ -40,7 +62,7 @@ DataReaderServer::DataReaderServer(int port, int rate) : server(port){
 }
 
 void DataReaderServer::acceptConnectionsAndReadData(SymbolTableManager *stm) {
-    stm->setServer(&server);
+    //stm->setServer(&server);
     thread t(startServer,server,rate,stm);
 
     t.detach();

@@ -21,8 +21,8 @@ int ConnectCommand::doCommand(vector<string> data, int index) {
     port = static_cast<int>(exp->calculate());
     delete exp;
 
-    TCPClient client(ipAddress,port);
-    client.connectToServer();
-    this->stm->setClient(&client);
+    TCPClient *client = new TCPClient(ipAddress,port);
+    client->connectToServer();
+    this->stm->setClient(client);
     return 3;
 }

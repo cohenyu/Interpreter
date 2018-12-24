@@ -28,6 +28,7 @@
 #define PRINT "print"
 #define IF "if"
 #define SLEEP "sleep"
+#define ENTERC "enterc"
 
 
 using  namespace std;

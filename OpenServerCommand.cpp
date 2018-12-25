@@ -12,6 +12,13 @@ OpenServerCommand::OpenServerCommand(SymbolTableManager* stm) {
     this->stm= stm;
 }
 
+/**
+ * The function opens a thread that opens a server on the given port and
+ * reads lines according to the desired rate.
+ * @param data the main vector
+ * @param index the index if the command on the vector
+ * @return how mach moves to step after this command.
+ */
 int OpenServerCommand::doCommand(vector<string> data, int index) {
     ShuntingYard shuntingYard(stm);
     Expression *exp;

@@ -71,31 +71,43 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
         else if(isdigit(infixExpression[i])){
             //turn off the flag
             isNeg = 0;
-            double val = 0;
-
+            //temp
+            string val;
             // There may be more than one digits in number,so we continue to read the number
-            while(i < infixExpression.length() && isdigit(infixExpression[i])&& (infixExpression[i] !=DOT))
+            while(i < infixExpression.length() && (isdigit(infixExpression[i]) ||  (infixExpression[i] ==DOT)))
             {
-                val = (val * 10) + (infixExpression[i] - '0');
+                val += infixExpression[i];
                 i++;
-
             }
-            //Counts the number of digits after the  decimal dot
-            int couter =0;
-            if (infixExpression[i] == DOT){
-                i++;
-                while(i < infixExpression.length() && isdigit(infixExpression[i]))
-                {
-                    couter+=1;
-                    val = (val * 10) + (infixExpression[i] - '0');
-                    i++;
-                }
-            }
+            double result = stod(val);
+//            double val = 0;
+//            //temp decimal
+//            double temp = 0;
+//            int exponent = 1;
+//            // There may be more than one digits in number,so we continue to read the number
+//            while(i < infixExpression.length() && isdigit(infixExpression[i])&& (infixExpression[i] !=DOT))
+//            {
+//                val = (val * 10) + (infixExpression[i] - '0');
+//                i++;
+//            }
+//            double result = 0;
+//            //Counts the number of digits after the  decimal dot
+//            if (i < infixExpression.length() && infixExpression[i] == DOT){
+//                i++;
+//                while(i < infixExpression.length() && isdigit(infixExpression[i]))
+//                {
+//                    temp += (double)(infixExpression[i] - '0') / pow(10,exponent);
+//                    ////val = (val * 10) + (infixExpression[i] - '0');
+//                    exponent++;
+//                    i++;
+//                }
+//            }
             i--;
             //we div the number by the num of numbers after the dot
-            val = val/pow(10,couter);
-            Expression* num = new Number(val);
-            values.push(num);
+           // val += temp;
+            //Expression* num = new Number(val);
+            //values.push(new Number(val));
+            values.push(new Number(result));
         }
 
         // Closing brace encountered, solve entire brace.

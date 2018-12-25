@@ -24,17 +24,44 @@
 #define EQUAL_E "=="
 #define NOT_E "!="
 
+#define OPEN_DATA_SERVER "openDataServer"
+#define CONNECT "connect"
+#define ASSIGNMENT "="
+#define VAR "var"
+#define WHILE "while"
+#define PRINT "print"
+#define IF "if"
+#define SLEEP "sleep"
+#define ENTERC "enterc"
+#define BIND "bind"
 
+// constructor
+Lexer::Lexer() {
 
+}
+
+/**
+ * The function checks whether the command-line parameter is a file.
+ * If so, the function splits it and returns the vector with the data.
+ * @param argc number of parameters
+ * @param argv the parameters
+ * @return the data vector
+ */
 vector<string> Lexer::lexer(int argc, char **argv) {
-
-    string string = argv[1];
-    ///// TODO- how we know if this file or console?
-    if (string.find("txt") > 0){
-        return fromTxtToData(string);
+    if (argc >= 1){
+        string string = argv[1];
+        if (string.find("txt") > 0){
+            return fromTxtToData(string);
+        }
     }
 }
 
+/**
+ * The function reads lines from the file. Each line is split by variables, operators, commands, etc.
+ * Finally, it returns a vector so that each cell has an operator, command, or expression.
+ * @param fileName the file to read from
+ * @return the splited data
+ */
 vector<string> Lexer::fromTxtToData(string fileName) {
     ifstream inputFile;
     inputFile.open(fileName);
@@ -55,7 +82,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
             }
 
             //if saw operators
-            if((cur ==PLUS)|| (cur ==MINUS)|| (cur ==DIV)||(cur== MULT)) {
+            if((cur == PLUS)|| (cur ==MINUS)|| (cur ==DIV)||(cur== MULT)) {
                 string temp;
                 temp += cur;
                 data.push_back(temp);
@@ -73,7 +100,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
                     temp += cur;
                     data.push_back(temp);
                 }
-                // if we saw '(' read until ')'.
+                // if we saw '(' read until his ')'.
             } else if (cur == OP_BRACKET){
                 int counter = 1;
                 string str;
@@ -95,7 +122,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
                     throw "syntax error";
                 }
                 data.push_back(str);
-                //if we read " read until " push the strings between in the vector
+                //if we read from the first " to his closer and push the strings between into the vector
             } else if (cur == GERESH){
                 int counter = 1;
                 string str;
@@ -114,7 +141,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
                     throw "syntax error";
                 }
                 data.push_back(str);
-                //if we saw { || } push to the vactor
+                //if we saw '}' or '{' or ',' push into the vector
             } else if ((cur== F_CL_BRACKET)||(cur == F_OP_BRACKET)||cur==COMMA){
                 string temp;
                 temp += cur;
@@ -131,20 +158,31 @@ vector<string> Lexer::fromTxtToData(string fileName) {
         }
 
     }
+    inputFile.close();
     return arithmeticProcess(data);
 }
 
-
+/**
+ * The function accepts a vector and connects into one cell each mathematical expression.
+ * @param tempData Vector in which expressions are separated into different cells.
+ * @return the new vector
+ */
 vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
     vector<string> data;
     bool flag = false;
+    // Move through the cells in the vector
     for(int i =0; i < tempData.size(); i++) {
 
-        if (isIp(tempData[i]) || isCommand(tempData[i]) || isCmpOperator(tempData[i])) {
+        // check if the current cell contains IP, command or comparison operator
+        if (isIp(tempData[i]) || isCommand(tempData[i]) || isCmpOperator(tempData[i]) || tempData[i] == ",") {
             flag = false;
+            if (tempData[i] == ","){
+                continue;
+            }
             data.push_back(tempData[i]);
             continue;
         }
+        // if the call contains an operator
         if (isOperator(tempData[i])) {
             string exp;
             while (isOperator(tempData[i])) {
@@ -172,10 +210,21 @@ vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
     return data;
 }
 
+/**
+ * The function returns true if the received string is a command and otherwise returns false.
+ * @param str the string
+ * @return true or false
+ */
 bool Lexer::isCommand(string str) {
-    return (str == "connect" || str == "print" || str == "=" || str == "bind");
+    return (str == CONNECT || str == PRINT || str ==ASSIGNMENT || str == BIND || str== OPEN_DATA_SERVER ||
+            str == SLEEP || str == ENTERC || str == VAR || str == WHILE || str == IF);
 }
 
+/**
+ * The function returns true if the received string is a IP address and otherwise returns false.
+ * @param str the string
+ * @return true or false
+ */
 bool Lexer::isIp(string str) {
     int pointCounter = 0;
     for(int i = 0; i < str.length(); i++){
@@ -191,10 +240,22 @@ bool Lexer::isIp(string str) {
     return pointCounter == 3;
 }
 
+/**
+ * The function returns true if the received string is a comparison operator, one from: < > = >= <= !=
+ * otherwise false.
+ * @param str the operator
+ * @return true or false
+ */
 bool Lexer::isCmpOperator(string str) {
     return (str[0] == LESS || str[0] == GREATER || str == EQUAL_E || str == LESS_E || str == GREATER_E || str == NOT_E);
 }
 
+/**
+ * The function returns true if the received string is a arithmetic operator, one from: + - * /
+ * otherwise false.
+ * @param str  the operator
+ * @return true or false
+ */
 bool Lexer::isOperator(string str) {
     return (str[0] == PLUS || str[0] == MINUS || str[0] == MULT || str[0] == DIV);
 

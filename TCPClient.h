@@ -18,8 +18,11 @@ public:
     int getSocket();
     TCPClient(string ipAddress, int port);
     void connectToServer();
-    string readFromServer(char seperator);
+    string readFromServer(char separator);
     void writeToServer(string data);
+    ~TCPClient(){
+       // close(clientSocket);
+    }
 };
 
 

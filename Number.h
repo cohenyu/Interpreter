@@ -9,6 +9,9 @@ class Number : public Expression{
 public:
     Number(double num);
     virtual double calculate();
+    ~Number(){
+
+    }
 };
 
 

@@ -21,6 +21,7 @@ private:
     vector<string> arithmeticProcess(vector<string> data);
 public:
     vector<string> lexer(int argc ,char* argv[]);
+    Lexer();
 
 
 

@@ -11,6 +11,7 @@
 #include <vector>
 
 class DataReaderServer {
+    //TODO
     TCPServer server;
     int rate;
 public:

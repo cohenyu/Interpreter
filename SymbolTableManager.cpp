@@ -14,7 +14,7 @@ using namespace std;
 SymbolTableManager::SymbolTableManager() {
     initializationArrayToZero();
     this->fromPathToIndex = initPathsToIndex();
-    this->server = nullptr;
+    //this->server = nullptr;
     this->client = nullptr;
 }
 
@@ -93,7 +93,7 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     pathAndIndex.insert(make_pair("/controls/flight/elevator", 18));
     pathAndIndex.insert(make_pair("/controls/flight/rudder", 19));
     pathAndIndex.insert(make_pair("/controls/flight/flaps", 20));
-    pathAndIndex.insert(make_pair("/controls/engines/engine/throttle", 21));
+    pathAndIndex.insert(make_pair("/controls/engines/current-/engine/throttle", 21));
     pathAndIndex.insert(make_pair("/engines/engine/rpm", 22));
 
     for(map<string,int>::iterator it = pathAndIndex.begin(); it != pathAndIndex.end(); ++it){
@@ -104,32 +104,34 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     return pathAndIndex;
 }
 
-
-/**
- * The function gets a string and turns it into a double number.
- * @param str string number
- * @return the double value
- */
-double SymbolTableManager::strToDouble(string str) {
-    double val = 0;
-    int i = 0;
-
-    while(i < str.length() && isdigit(str[i])) {
-        val = (val * 10) + (str[i] - '0');
-        i++;
-    }
-    int couter = 0;
-    if (str[i] == DOT){
-        i++;
-        while(i < str.length() && isdigit(str[i]))
-        {
-            val = (val * 10) + (str[i] - '0');
-            couter++;
-            i++;
-        }
-    }
-    return  val/pow(10,couter);
-}
+//
+///**
+// * The function gets a string and turns it into a double number.
+// * @param str string number
+// * @return the double value
+// */
+//double SymbolTableManager::strToDouble(string str) {
+//    double val = 0;
+//    int i = 0;
+//
+//    while(i < str.length() && isdigit(str[i])) {
+//        val = (val * 10) + (str[i] - '0');
+//        i++;
+//    }
+//    int couter = 0;
+//    if (str[i] == DOT){
+//        i++;
+//        while(i < str.length() && isdigit(str[i]))
+//        {
+//            //val = val/10;
+//            val = (val * 10) + (str[i] - '0');
+//            couter++;
+//            i++;
+//        }
+//    }
+//    return  val/pow(10,couter);
+//    return  val;
+//}
 
 /**
  * this function set the TCPClient member
@@ -143,7 +145,7 @@ void SymbolTableManager::setClient(TCPClient* client) {
  * this function set the TCPServer member
  * @param server the TCPServer
  */
-void SymbolTableManager::setServer(TCPServer* server) {
+void SymbolTableManager::setServer(TCPServer server) {
     this->server = server;
 }
 
@@ -154,8 +156,9 @@ void SymbolTableManager::setServer(TCPServer* server) {
  * @param values the vector with the values
  */
 void SymbolTableManager::setValuesFromFlightGear(vector<string> values) {
+    ShuntingYard sy(this);
     for (int i = 0; i < PATHS_AMOUNT; i++){
-        this->flightGearValues[i] = this->strToDouble(values[i]);
+        this->flightGearValues[i] = sy.fromInfixToExp(values[i])->calculate();
     }
     for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
         int index = it->second;
@@ -204,6 +207,11 @@ void SymbolTableManager::setVarOrPath(string prm1, double value) {
  */
 void SymbolTableManager::updateValueAndDependentOn(string prm1, double value) {
     for(string s: dependencyMap.at(prm1)){
+        // if path from server dont update.
+        if (prm1 == s && this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()){
+            continue;
+        }
+
         this->setVarOrPath(s, value);
     }
 }
@@ -249,6 +257,10 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
  * @param value the new value
  */
 void SymbolTableManager::setValueOfFlightGear(string path, double value) {
+    if (this->client == nullptr){
+        return;
+    }
+
     if (this->client->getSocket() != -1){
         string data = "set "+ path + ' ' + to_string(value) + "\r\n" ;
         this->client->writeToServer(data);
@@ -260,7 +272,7 @@ void SymbolTableManager::closeSockets() {
     if (this->client != nullptr){
         close(this->client->getSocket());
     }
-    if (this->server != nullptr){
-        close(this->server->getSocket());
-    }
+//    if (this->server != nullptr){
+//        close(this->server->getSocket());
+//    }
 }

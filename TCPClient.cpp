@@ -21,6 +21,9 @@ TCPClient::TCPClient(string ipAddress, int port) {
     this->clientSocket = -1;
 }
 
+/**
+ * this function create a socket point and connect to the server
+ */
 void TCPClient::connectToServer() {
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -54,14 +57,27 @@ void TCPClient::connectToServer() {
     cout << "connected" << endl;
 }
 
-string TCPClient::readFromServer(char seperator) {
-    return socketCommunication.readFromSocket(this->clientSocket,seperator);
+/**
+ * this function reads from the socket until the separator char
+ * @param separator the char to stop
+ * @return the string from the socket
+ */
+string TCPClient::readFromServer(char separator) {
+    return socketCommunication.readFromSocket(this->clientSocket,separator);
 }
 
+/**
+ * this function write the string data to the socket
+ * @param data the string
+ */
 void TCPClient::writeToServer(string data) {
     socketCommunication.writeToSocket(this->clientSocket, data);
 }
 
+/**
+ * this function returns the server socket
+ * @return server socket
+ */
 int TCPClient::getSocket() {
     return this->clientSocket;
 }

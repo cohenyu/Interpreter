@@ -22,7 +22,7 @@ class SymbolTableManager {
     double flightGearValues[PATHS_AMOUNT];
     map<string, set<string>> dependencyMap;
     TCPClient* client;
-    TCPServer* server;
+    TCPServer server;
 
 public:
     SymbolTableManager();
@@ -33,16 +33,20 @@ public:
     void updateValueAndDependentOn(string prm1, double value);
     void createDependency(string prm1, string prm2);
     void setClient(TCPClient* client);
-    void setServer(TCPServer* server);
+    void setServer(TCPServer server);
     void closeSockets();
+   ~SymbolTableManager(){
+       //delete this->server;
+       delete this->client;
+   }
 
 private:
+    //double strToDouble(string str);
     void setVarOrPath(string prm1, double value);
     void setVarAtSymbolTable(string name, double value);
     void setValueOfFlightGear(string path, double value);
     void initializationArrayToZero();
     map<string, int> initPathsToIndex();
-    double strToDouble(string str);
 };
 
 

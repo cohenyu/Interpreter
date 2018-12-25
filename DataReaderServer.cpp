@@ -13,62 +13,50 @@
 
 using namespace std;
 
-//void handleClient(int socket, int rate,SymbolTableManager *stm){
-//    int microSecToSleep = (1000/rate) * 1000;
-//    SocketCommunication socketCommunication;
-//
-//    while (true) {
-//        string data = socketCommunication.readFromSocket(socket,NEW_LINE);
-//        stm->setValuesFromFlightGear(split(data, COMMA));
-//
-//        cout <<data << endl;
-//        usleep(microSecToSleep);
-//    }
-//}
-
-void handleClient(int socket, int rate){
+void handleClient(int socket, int rate,SymbolTableManager *stm){
     int microSecToSleep = (1000/rate) * 1000;
     SocketCommunication socketCommunication;
 
     while (true) {
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
-        //stm->setValuesFromFlightGear(split(data, COMMA));
+        stm->setValuesFromFlightGear(split(data, COMMA));
 
-        cout <<data << endl;
+        cout << data << endl;
         usleep(microSecToSleep);
     }
 }
 
-//void startServer(TCPServer server,int rate,SymbolTableManager *stm) {
-//    server.startListenToConnect();
-//
-//    while (true) {
-//        thread t(handleClient, server.acceptConnectionFromClient(),rate, stm);
-//        t.detach();
-//    }
-//}
 
-void startServer(TCPServer server,int rate,SymbolTableManager *stm) {
-    server.startListenToConnect();
+/// todo
+// //stm->setServer(&server);
 
-    while (true) {
-        thread t(handleClient, server.acceptConnectionFromClient(),rate);
-        t.detach();
-    }
-}
-
-DataReaderServer::DataReaderServer(int port, int rate) : server(port){
+// constructor
+// TODO
+DataReaderServer::DataReaderServer(int port, int rate) {//: server(port){
+    this->server = TCPServer(port);
     this->rate = rate;
 }
 
+/**
+ * this function accepts connection and read data
+ * @param stm the symbol table manager
+ */
 void DataReaderServer::acceptConnectionsAndReadData(SymbolTableManager *stm) {
-    //stm->setServer(&server);
-    thread t(startServer,server,rate,stm);
+    //thread t(startServer,TCPServer(),0,nullptr);
+    //TODO
+    stm->setServer(this->server);
+    this->server.startListenToConnect();
 
+    thread t(handleClient, server.acceptConnectionFromClient(),rate, stm);
     t.detach();
 }
 
-
+/**
+ * The function accepts a string and splits it according to the given delimiter.
+ * @param str the string
+ * @param delimiter the separator
+ * @return the splited string in vector
+ */
 vector<string> split(const string &str, char delimiter) {
     vector<string> tokens;
     string token;

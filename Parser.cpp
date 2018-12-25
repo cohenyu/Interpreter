@@ -4,9 +4,10 @@
 
 #include "Parser.h"
 #include "EnterC.h"
+#include "ExitCommand.h"
 
 /*
- * constractor of parser
+ * constructor of parser
  */
 Parser::Parser(vector<string> data, SymbolTableManager* stm) {
     this->stm = stm;
@@ -30,7 +31,6 @@ void Parser::parser() {
             index++;
         }
     }
-    this->stm->closeSockets();
 }
 
 /**
@@ -58,6 +58,8 @@ map<string, Expression*> Parser::initializationMapExp() {
     expC.insert(make_pair(WHILE, new CommandExpression(new WhileCommand(this->stm), this->data, this->index)));
 
     expC.insert(make_pair(ENTERC, new CommandExpression(new EnterC(), this->data, this->index)));
+
+    expC.insert(make_pair(EXIT, new CommandExpression(new ExitCommand(this->stm), this->data, this->index)));
 
     return expC;
 }

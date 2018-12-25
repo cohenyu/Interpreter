@@ -29,6 +29,7 @@
 #define IF "if"
 #define SLEEP "sleep"
 #define ENTERC "enterc"
+#define EXIT "exit"
 
 
 using  namespace std;

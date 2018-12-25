@@ -72,6 +72,7 @@ void SymbolTableManager::initializationArrayToZero() {
  */
 map<string, int> SymbolTableManager::initPathsToIndex() {
     map<string, int> pathAndIndex;
+
     pathAndIndex.insert(make_pair("/instrumentation/airspeed-indicator/indicated-speed-kt", 0));
     pathAndIndex.insert(make_pair("/instrumentation/altimeter/indicated-altitude-ft", 1));
     pathAndIndex.insert(make_pair("/instrumentation/altimeter/pressure-alt-ft", 2));
@@ -192,11 +193,16 @@ double SymbolTableManager::getValueOfPathOrVar(string prm) {
  * @param value the value to update
  */
 void SymbolTableManager::setVarOrPath(string prm1, double value) {
-    if (this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()) {
+    if (prm1[0] == '/') {
         setValueOfFlightGear(prm1, value);
     } else {
         setVarAtSymbolTable(prm1, value);
     }
+//    if (this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()) {
+//        setValueOfFlightGear(prm1, value);
+//    } else {
+//        setVarAtSymbolTable(prm1, value);
+//    }
 }
 
 /**
@@ -206,6 +212,13 @@ void SymbolTableManager::setVarOrPath(string prm1, double value) {
  * @param value the value to update
  */
 void SymbolTableManager::updateValueAndDependentOn(string prm1, double value) {
+    //if the parm1 does not found at dependencyMap
+    if(dependencyMap.find(prm1)== dependencyMap.end()){
+        set<string> set1;
+        //insert him to the set
+        set1.insert(prm1);
+        dependencyMap.insert(make_pair(prm1, set1));
+    }
     for(string s: dependencyMap.at(prm1)){
         // if path from server dont update.
         if (prm1 == s && this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()){
@@ -225,29 +238,57 @@ void SymbolTableManager::updateValueAndDependentOn(string prm1, double value) {
  */
 void SymbolTableManager::createDependency(string prm1, string prm2) {
     set<string> mainSet;
-    //not found
+    bool wasInDependencyMay= true;
+
+    //if the parm1 is not found at the dependency map insert him with himself
     if (dependencyMap.find(prm1) == dependencyMap.end()){
-        throw "use of undeclared identifier";
-    } else {
-        for (string s: dependencyMap.find(prm1)->second) {
-            mainSet.insert(s);
-        }
+
+        set<string> set1;
+        //insert him to the set
+        set1.insert(prm1);
+        dependencyMap.insert(make_pair(prm1, set1));
+    }
+    //if the second parm is not at the dependency map we insert him because we saw "bind"
+    if(dependencyMap.find(prm2) == dependencyMap.end()) {
+        set<string> set2;
+        wasInDependencyMay= false;
+        //insert him to the set
+        set2.insert(prm2);
+        dependencyMap.insert(make_pair(prm2, set2));
     }
 
-    if (dependencyMap.find(prm2) == dependencyMap.end()){
-        throw "use of undeclared identifier";
-    } else {
-        for (string s: dependencyMap.find(prm2)->second) {
+    //run over the dependency map and enther parameters that depend on it to the main set
+    for (string s: dependencyMap.find(prm1)->second) {
             mainSet.insert(s);
-        }
     }
-
-    double  value = getValueOfPathOrVar(prm2);
-    for(string s: mainSet){
-        setVarOrPath(prm1, value);
-       if (dependencyMap.find(s) != dependencyMap.end()){
-           dependencyMap.find(s)->second = mainSet;
-       }
+    //run over the dependency map and enther parameters that depend on it to the main set
+    for (string s: dependencyMap.find(prm2)->second) {
+        mainSet.insert(s);
+    }
+    /*
+     * if in xml  or var we take his value and
+     * 1.put for every depend parameters the value
+     * 2.initilize the set of every depend parameter to the main set
+     */
+    if(wasInDependencyMay) {
+        double value = getValueOfPathOrVar(prm2);
+        for (string s: mainSet) {
+            setVarOrPath(s, value);
+            if (dependencyMap.find(s) != dependencyMap.end()) {
+                dependencyMap.find(s)->second = mainSet;
+            }
+        }
+     /*
+     * if not in xml  or var we take his value and
+     * 1.put for every depend parameters the value
+     * 2.initilize the set of every depend parameter to the main set
+     */
+    }else {
+        for (string s: mainSet) {
+            if (dependencyMap.find(s) != dependencyMap.end()) {
+                dependencyMap.find(s)->second = mainSet;
+            }
+        }
     }
 }
 

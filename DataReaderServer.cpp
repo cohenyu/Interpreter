@@ -22,7 +22,8 @@ void handleClient(int socket, int rate,SymbolTableManager *stm){
         stm->setValuesFromFlightGear(split(data, COMMA));
 
         cout << data << endl;
-        usleep(microSecToSleep);
+        //todo
+        //usleep(microSecToSleep);
     }
 }
 

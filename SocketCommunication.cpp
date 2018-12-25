@@ -3,6 +3,9 @@
 //
 
 #include <unistd.h>
+#include <sys/socket.h>
+#include <iostream>
+#include <cstring>
 #include "SocketCommunication.h"
 
 #define MESSAGE_SEPERATOR '\n'
@@ -18,26 +21,41 @@ SocketCommunication::SocketCommunication() {
  * @return what the function reaf from the socket
  */
 string SocketCommunication::readFromSocket(int socket, char separator) {
-    char c = '\0';
+    char buffer[256];
     int n;
+
+
+    /* Now read server response */
+    bzero(buffer,256);
+    n = read(socket, buffer, 255);
+
+    if (n < 0) {
+        perror("ERROR reading from socket");
+        exit(1);
+    }
     string data;
-
-    if (socket < 0){
-        perror("ERROR socket not found");
-    }
-
-    n = read(socket, &c, 1);
-    while (c != separator) {
-        if (n < 0) {
-            perror("ERROR reading from socket");
-            exit(1);
-        }
-
-        data += c;
-        n = read(socket, &c, 1);
-    }
-
-    return data;
+    string str(buffer);
+    return str;
+//    char c = '\0';
+//    int n;
+//    string data;
+//
+//    if (socket < 0){
+//        perror("ERROR socket not found");
+//    }
+//
+//    n = read(socket, &c, 1);
+//    while (c != separator) {
+//        if (n < 0) {
+//            perror("ERROR reading from socket");
+//            exit(1);
+//        }
+//
+//        data += c;
+//        n = read(socket, &c, 1);
+//    }
+//
+//    return data;
 }
 
 /**
@@ -47,14 +65,36 @@ string SocketCommunication::readFromSocket(int socket, char separator) {
  */
 void SocketCommunication::writeToSocket(int socket, string data) {
     int n;
+    char buffer[256];
+    bzero(buffer,256);
+    strcpy(buffer, data.c_str());
+    //fgets(buffer,255,stdin);
 
-    if (socket < 0){
-        perror("ERROR socket not found");
-    }
+    /* Send message to the server */
+    n = write(socket, buffer, strlen(buffer));
 
-    n = write(socket, data.c_str(), data.length());
     if (n < 0) {
         perror("ERROR writing to socket");
         exit(1);
     }
+
+//    int n;
+//
+//    if (socket < 0){
+//        perror("ERROR socket not found");
+//    }
+//    // todo
+//    char buffer[256];
+//    bzero(buffer,256);
+//    strcpy(buffer,data.c_str());
+//    n = write(socket, buffer, strlen(buffer));
+//    //n = ::send(socket, data.c_str(), strlen((char*) data.c_str()), 0);
+//
+//    cout<<data<<endl;
+//
+//    //n = write(socket, data.c_str(), data.length());
+//    if (n < 0) {
+//        perror("ERROR writing to socket");
+//        exit(1);
+//    }
 }

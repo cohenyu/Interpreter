@@ -6,6 +6,7 @@
 #include "EnterC.h"
 #include "ExitCommand.h"
 
+
 /*
  * constructor of parser
  */
@@ -62,4 +63,11 @@ map<string, Expression*> Parser::initializationMapExp() {
     expC.insert(make_pair(EXIT, new CommandExpression(new ExitCommand(this->stm), this->data, this->index)));
 
     return expC;
+}
+
+void Parser::freeMemory() {
+//    for (map<string,Expression*>::iterator it = this->expsfCommand.begin(); it !=  this->expsfCommand.end();it++){
+//        delete (*it).second;
+//    }
+
 }

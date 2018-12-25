@@ -43,6 +43,9 @@ class Parser {
 public:
     Parser(vector<string> data,SymbolTableManager* stm);
     void parser();
+    ~Parser(){
+    }
+    void freeMemory();
 
 private:
     map<string, Expression*> initializationMapExp();

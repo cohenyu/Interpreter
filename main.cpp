@@ -6,9 +6,18 @@
 #include <ostream>
 #include <unistd.h>
 #include <math.h>
+#include <TCPClient.h>
 
-int main(int argc, char **argv) {
+//int main(int argc, char **argv) {
 //
+//    TCPClient client("10.0.2.2", 5402);
+//    client.connectToServer();
+//    while (true){
+//        client.writeToServer("set /controls/flight/aileron 2.02");
+//        sleep(5);
+//    }
+
+
 //    SymbolTableManager stm;
 //    ShuntingYard shuntingYard(&stm);
 //    Expression *exp;
@@ -82,18 +91,107 @@ int main(int argc, char **argv) {
 //   cout << r << endl;
 
 
-    //create empty symbolTableManager
-    SymbolTableManager stm;
-    //read the file
-    Lexer lexer;
-    vector<string> vec = lexer.lexer(argc, argv);
 
-    //parser
-    Parser parser(vec,&stm);
-    parser.parser();
-   while(true){
-      sleep(1);
-   }
+//    //create empty symbolTableManager
+//    SymbolTableManager stm;
+//    //read the file
+//    Lexer lexer;
+//    vector<string> vec = lexer.lexer(argc, argv);
+//
+//    //parser
+//    Parser parser(vec,&stm);
+//    parser.parser();
+//
+//    //parser.freeMemory();
+//   while(true){
+//      sleep(1);
+//   }
+//    long double d =stold("1.193444");
+//    cout << d <<endl;
 
+
+//    return 0;
+//}
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+
+#include <netdb.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <netinet/in.h>
+
+#include <string.h>
+
+
+
+using  namespace std;
+int main(int argc, char *argv[]) {
+    int sockfd, portno, n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
+
+    char buffer[256];
+
+    portno = 5402;
+
+    /* Create a socket point */
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (sockfd < 0) {
+        perror("ERROR opening socket");
+        exit(1);
+    }
+
+    server = gethostbyname("10.0.2.2");
+
+    if (server == NULL) {
+        fprintf(stderr,"ERROR, no such host\n");
+        exit(0);
+    }
+
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+    serv_addr.sin_port = htons(portno);
+
+    /* Now connect to the server */
+    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+        perror("ERROR connecting");
+        exit(1);
+    }
+    cout << "connected" << endl;
+
+    /* Now ask for a message from the user, this message
+       * will be read by server
+    */
+
+
+    int i = 1;
+    while (i < 3){
+        i++;
+        printf("Please enter the message: ");
+        bzero(buffer,256);
+        fgets(buffer,255,stdin);
+        /* Send message to the server */
+        n = write(sockfd, buffer, strlen(buffer));
+
+        if (n < 0) {
+            perror("ERROR writing to socket");
+            exit(1);
+        }
+
+        /* Now read server response */
+        bzero(buffer,256);
+    }
+    n = read(sockfd, buffer, 255);
+
+    if (n < 0) {
+        perror("ERROR reading from socket");
+        exit(1);
+    }
+
+    printf("%s\n",buffer);
     return 0;
 }
+

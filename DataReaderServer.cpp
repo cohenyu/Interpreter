@@ -5,6 +5,7 @@
 #include <thread>
 #include <unistd.h>
 #include <iostream>
+#include <vector>
 #include <sstream>
 #include "DataReaderServer.h"
 #define COMMA ','
@@ -19,7 +20,8 @@ void handleClient(int socket, int rate,SymbolTableManager *stm){
 
     while (true) {
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
-        stm->setValuesFromFlightGear(split(data, COMMA));
+        vector<string> splited = split(data, COMMA);
+        stm->setValuesFromFlightGear(splited);
 
         cout << data << endl;
         //todo

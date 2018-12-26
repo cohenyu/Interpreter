@@ -59,8 +59,10 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
     for(int  i = 0; i < infixExpression.length(); i++){
 
         // Current exp is a whitespace,skip it.
-        if(infixExpression[i] == ' ')
+        if(infixExpression[i] == ' ' || infixExpression[i] == '\n'){
             continue;
+
+        }
 
         // Current exp is an opening brace, push it to 'ops'
         else if(infixExpression[i] == OP_BRACKET){
@@ -80,28 +82,6 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
                 i++;
             }
             double result = stod(val);
-//            double val = 0;
-//            //temp decimal
-//            double temp = 0;
-//            int exponent = 1;
-//            // There may be more than one digits in number,so we continue to read the number
-//            while(i < infixExpression.length() && isdigit(infixExpression[i])&& (infixExpression[i] !=DOT))
-//            {
-//                val = (val * 10) + (infixExpression[i] - '0');
-//                i++;
-//            }
-//            double result = 0;
-//            //Counts the number of digits after the  decimal dot
-//            if (i < infixExpression.length() && infixExpression[i] == DOT){
-//                i++;
-//                while(i < infixExpression.length() && isdigit(infixExpression[i]))
-//                {
-//                    temp += (double)(infixExpression[i] - '0') / pow(10,exponent);
-//                    ////val = (val * 10) + (infixExpression[i] - '0');
-//                    exponent++;
-//                    i++;
-//                }
-//            }
             i--;
             //we div the number by the num of numbers after the dot
            // val += temp;
@@ -168,7 +148,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
         } else {
             isNeg = 0;
             string varName;
-            while (i < infixExpression.length() && !isOperator(infixExpression[i]) ){
+            while (i < infixExpression.length() && !isOperator(infixExpression[i]) &&  infixExpression[i]!= '\n'){
                 varName += infixExpression[i];
                 i++;
             }

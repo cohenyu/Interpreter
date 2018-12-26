@@ -21,10 +21,10 @@ public:
     virtual double calculate() = 0;
     Expression* getRightExpression();
     Expression* getLeftExpression();
-    //virtual ~BinaryExpression(){
-    //    delete this->left;
-    //    delete this->right;
-    //};
+    ~BinaryExpression()override{
+        delete this->left;
+        delete this->right;
+    };
 };
 
 #endif

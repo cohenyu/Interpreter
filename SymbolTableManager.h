@@ -42,10 +42,9 @@ public:
     void setClient(TCPClient* client);
     void setServer(TCPServer server);
     void closeSockets();
-//   ~SymbolTableManager(){
-//       //delete this->server;
-//       delete this->client;
-//   }
+   ~SymbolTableManager(){
+       delete this->client;
+   }
 
 private:
     //double strToDouble(string str);

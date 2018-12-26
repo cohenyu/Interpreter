@@ -22,6 +22,10 @@ public:
     CommandExpression(Command* command,vector<string>& data, int &index);
     virtual double calculate();
 
+    virtual ~CommandExpression(){
+        delete command;
+    }
+
 };
 
 

@@ -15,7 +15,7 @@ using namespace std;
 class Command{
 public:
     virtual int doCommand(vector<string> data,int index) = 0;
-    //virtual ~Command() = default;
+
 };
 
 

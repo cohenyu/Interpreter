@@ -15,7 +15,6 @@ using namespace std;
 SymbolTableManager::SymbolTableManager() {
     initializationArrayToZero();
     this->fromPathToIndex = initPathsToIndex();
-    //this->server = nullptr;
     this->client = nullptr;
 }
 
@@ -168,7 +167,9 @@ void SymbolTableManager::setValuesFromFlightGear(vector<string> values) {
     ShuntingYard sy(this);
     for (int i = 0; i < PATHS_AMOUNT; i++){
         unique_lock<mutex> ul2(m);
-        this->flightGearValues[i] = sy.fromInfixToExp(values[i])->calculate();
+        Expression* result = sy.fromInfixToExp(values[i]);
+        this->flightGearValues[i] = result->calculate();
+        delete result;
         ul2.unlock();
     }
     for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
@@ -331,7 +332,6 @@ void SymbolTableManager::closeSockets() {
     if (this->client != nullptr){
         close(this->client->getSocket());
     }
-//    if (this->server != nullptr){
-//        close(this->server->getSocket());
-//    }
+    close(this->server.getSocket());
+
 }

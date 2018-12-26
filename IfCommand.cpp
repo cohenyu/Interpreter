@@ -7,7 +7,9 @@
 #define START_EXCUT 5
 
 
-// constructor
+/*
+ * this is the constructor of the IfCommand.
+ */
 IfCommand::IfCommand(SymbolTableManager* stm) {
     this->stm = stm;
 }

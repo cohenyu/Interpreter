@@ -4,7 +4,9 @@
 #include "Expression.h"
 #include "ShuntingYard.h"
 #include <unistd.h>
-// constructor
+/*
+ * this is the constructor of the WhileCommand.
+ */
 SleepCommand::SleepCommand(SymbolTableManager* stm) {
     this->stm=stm;
 }

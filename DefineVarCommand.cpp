@@ -1,10 +1,10 @@
-//
-// Created by yuval on 18/12/18.
-//
+
 
 #include "DefineVarCommand.h"
 
-// constructor
+/*
+ * this is the constructor of the DefineVarCommand
+ */
 DefineVarCommand::DefineVarCommand(SymbolTableManager *stm) {
     this->stm = stm;
 }

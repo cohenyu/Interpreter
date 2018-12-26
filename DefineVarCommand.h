@@ -1,6 +1,3 @@
-//
-// Created by yuval on 18/12/18.
-//
 
 #ifndef PROJECT1_MY_DEFINEVARCOMMAND_H
 #define PROJECT1_MY_DEFINEVARCOMMAND_H
@@ -11,12 +8,18 @@
 #include "SymbolTableManager.h"
 
 using namespace std;
-
+/*
+ * this class represent DefineVarCommand
+ * its charge to define a new var in the program
+ */
 class DefineVarCommand : public Command{
     SymbolTableManager* stm;
 public:
     DefineVarCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
+   // ~DefineVarCommand(){
+   //     delete stm;
+   // }
 
 };
 

@@ -15,10 +15,13 @@
 #include <iostream>
 #include "TCPClient.h"
 
-
+/*
+ * this is the constructor of the TTCPClient.
+ */
 TCPClient::TCPClient(string ipAddress, int port) {
     this->ipAddress = ipAddress;
     this->port = port;
+    //initialize the socket to -1
     this->clientSocket = -1;
 }
 
@@ -46,6 +49,7 @@ void TCPClient::connectToServer() {
 
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
+    //todo לבדוק אם ככה אצל מיכאל כי זה אומר שהקאסטינג מיותר
     bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(this->port);
 // todo
@@ -55,6 +59,7 @@ void TCPClient::connectToServer() {
         perror("ERROR connecting");
         exit(1);
     }
+    //todo להוריד הדפסות
     cout << "connected" << endl;
 }
 

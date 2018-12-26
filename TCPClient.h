@@ -1,6 +1,4 @@
-//
-// Created by yuval on 19/12/18.
-//
+
 
 #ifndef YUVALANDMIRIEL_TCPCLIENT_H
 #define YUVALANDMIRIEL_TCPCLIENT_H
@@ -8,7 +6,11 @@
 #include "SocketCommunication.h"
 
 using namespace std;
-
+/*
+ * this class represent a TCPClient.
+ * it have port ,socket of the client,and ipAddress
+ * and SocketCommunication in order to be able to connect
+ */
 class TCPClient {
     int clientSocket;
     int port;

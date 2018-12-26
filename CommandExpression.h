@@ -1,6 +1,3 @@
-//
-// Created by yuval on 18/12/18.
-//
 
 #ifndef PROJECT1_MY_COMMANDEXPRESSION_H
 #define PROJECT1_MY_COMMANDEXPRESSION_H
@@ -9,13 +6,17 @@
 #include "Command.h"
 #include "SymbolTableManager.h"
 
+
+/*
+ * this class represent CommandExpression,its heiress from Expression.
+ */
 class CommandExpression: public Expression {
     Command*  command;
     vector<string> &data;
     int &index;
-    ~CommandExpression(){
-        //delete command;
-    }
+   // virtual ~CommandExpression(){
+   //     delete command;
+   // }
 
 public:
     CommandExpression(Command* command,vector<string>& data, int &index);

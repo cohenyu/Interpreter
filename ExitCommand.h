@@ -13,6 +13,9 @@ class ExitCommand: public Command {
 public:
     ExitCommand(SymbolTableManager* stm);
     int doCommand(vector<string> data, int index);
+    ~ExitCommand(){
+        delete stm;
+    }
 
 
 };

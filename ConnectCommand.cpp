@@ -3,11 +3,18 @@
 #include "ShuntingYard.h"
 #include "TCPClient.h"
 
-
+/*
+ * this is the constructor of the ConnectCommand.
+ */
 ConnectCommand::ConnectCommand(SymbolTableManager* stm) {
     this->stm = stm;
 }
-
+/*
+ * this function execute the connect command
+ * the connect command have 2 parameters so we take then and calculate
+ * 2 expression.
+ * the connect have port and ip
+ */
 int ConnectCommand::doCommand(vector<string> data, int index) {
 
     ShuntingYard shuntingYard(stm);

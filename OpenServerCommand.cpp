@@ -1,13 +1,13 @@
-//
-// Created by yuval on 19/12/18.
-//
+
 
 #include <unistd.h>
 #include "OpenServerCommand.h"
 #include "ShuntingYard.h"
 #include "DataReaderServer.h"
 
-// constructor
+/*
+ * this is the constructor of the OpenServerCommand.
+ */
 OpenServerCommand::OpenServerCommand(SymbolTableManager* stm) {
     this->stm= stm;
 }

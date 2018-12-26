@@ -8,7 +8,10 @@
 #include <string>
 
 using namespace std;
-
+/*
+ * this class represent Communication with Socket
+ * its have the ability to read and write into Socket.
+ */
 class SocketCommunication {
 public:
     SocketCommunication();

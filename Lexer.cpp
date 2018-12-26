@@ -35,7 +35,10 @@
 #define ENTERC "enterc"
 #define BIND "bind"
 
-// constructor
+
+/*
+ * this is the constructor of the Lexer.
+ */
 Lexer::Lexer() {
 
 }

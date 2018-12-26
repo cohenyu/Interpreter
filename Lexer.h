@@ -1,6 +1,4 @@
-//
-// Created by yuval on 16/12/18.
-//
+
 
 #ifndef PROJECT1_MY_LEXER_H
 #define PROJECT1_MY_LEXER_H
@@ -10,6 +8,11 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+/*
+ * this class represent a lexer that get a line and split her into
+ * a vector of strings,by the rules.
+ * what separates phrases can be any "white space"
+ */
 class Lexer {
 
 private:

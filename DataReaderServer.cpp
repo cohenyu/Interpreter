@@ -8,6 +8,7 @@
 #include <vector>
 #include <sstream>
 #include "DataReaderServer.h"
+#include <EnterC.h>
 #define COMMA ','
 
 #define NEW_LINE '\n'
@@ -17,15 +18,14 @@ using namespace std;
 void handleClient(int socket, int rate,SymbolTableManager *stm){
     int microSecToSleep = (1000/rate) * 1000;
     SocketCommunication socketCommunication;
-
     while (true) {
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
         vector<string> splited = split(data, COMMA);
         stm->setValuesFromFlightGear(splited);
 
-        cout << data << endl;
+        //cout << data << endl;
         //todo
-        //usleep(microSecToSleep);
+        usleep(microSecToSleep);
     }
 }
 
@@ -35,6 +35,9 @@ void handleClient(int socket, int rate,SymbolTableManager *stm){
 
 // constructor
 // TODO
+/*
+ * this is the constructor of DataReaderServer.
+ */
 DataReaderServer::DataReaderServer(int port, int rate) {//: server(port){
     this->server = TCPServer(port);
     this->rate = rate;
@@ -45,8 +48,7 @@ DataReaderServer::DataReaderServer(int port, int rate) {//: server(port){
  * @param stm the symbol table manager
  */
 void DataReaderServer::acceptConnectionsAndReadData(SymbolTableManager *stm) {
-    //thread t(startServer,TCPServer(),0,nullptr);
-    //TODO
+
     stm->setServer(this->server);
     this->server.startListenToConnect();
 

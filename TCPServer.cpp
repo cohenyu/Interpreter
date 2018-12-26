@@ -9,25 +9,27 @@
 #include <unistd.h>
 #include <thread>
 #include "TCPServer.h"
-
 #define BUFFER_SIZE 1024
 
-// constructor
+/*
+ * this is the constructor of the TCPServer.
+ */
 TCPServer::TCPServer(int port) {// : socketCommunication(-1)
     this->port = port;
+    //initialize the socket to -1
     this->serverSocket = -1;
 }
 
 /**
- * this function start listening to connection. process will
- * go in sleep mode and will wait for the incoming connection.
+ * this function start listening to connection.
+ * process will go in sleep mode and will wait for the incoming connection.
  */
 void TCPServer::startListenToConnect() {
 
-    // initalize the sockets variables
+    //initialize the sockets variables
     struct sockaddr_in serv_addr;
 
-    /* First call to socket() function */
+    //First call to socket() function
     this->serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 
     socketCommunication = SocketCommunication();/*this->serverSocket*/
@@ -37,7 +39,7 @@ void TCPServer::startListenToConnect() {
         exit(1);
     }
 
-    /* Initialize socket structure */
+    // Initialize socket structure
     bzero((char *) &serv_addr, sizeof(serv_addr));
 
     serv_addr.sin_family = AF_INET;

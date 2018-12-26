@@ -120,11 +120,12 @@ int main(int argc, char **argv) {
     //parser
     Parser parser(vec,&stm);
     parser.parser();
-
+    stm.closeSockets();
+    cout << "yay" << endl;
     //parser.freeMemory();
-   while(true){
-      sleep(1);
-   }
+   //while(true){
+   //   sleep(1);
+   //}
 //    long double d =stold("1.193444");
 //    cout << d <<endl;
 

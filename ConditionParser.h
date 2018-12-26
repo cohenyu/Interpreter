@@ -1,6 +1,4 @@
-//
-// Created by yuval on 19/12/18.
-//
+
 
 #ifndef YUVALANDMIRIEL_CONDITIONPARSER_H
 #define YUVALANDMIRIEL_CONDITIONPARSER_H
@@ -11,7 +9,11 @@
 #include "SymbolTableManager.h"
 
 using namespace std;
-
+/*
+ * this class represent a condition parser that heiress from command
+ * the condition parser class have right and left expression.
+ * in order to check some condition we need values to check it on them
+ */
 class ConditionParser : public Command{
 protected:
     Expression* right;

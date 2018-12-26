@@ -13,6 +13,7 @@
  *
  */
 class BinaryExpression :public Expression{
+protected:
     Expression* right;
     Expression* left;
 public:
@@ -20,7 +21,10 @@ public:
     virtual double calculate() = 0;
     Expression* getRightExpression();
     Expression* getLeftExpression();
-    ~BinaryExpression();
+    //virtual ~BinaryExpression(){
+    //    delete this->left;
+    //    delete this->right;
+    //};
 };
 
 #endif

@@ -11,6 +11,7 @@
 
 using namespace std;
 
+
 SymbolTableManager::SymbolTableManager() {
     initializationArrayToZero();
     this->fromPathToIndex = initPathsToIndex();
@@ -40,7 +41,9 @@ void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
     if (this->symbolTable.find(name) == this->symbolTable.end()){
         throw "this var does not have declaration";
     }
+    unique_lock<mutex> ul(m);
     this->symbolTable.find(name)->second = value;
+    ul.unlock();
 }
 
 /**
@@ -50,7 +53,10 @@ void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
  */
 double SymbolTableManager::getValueFromSymbolTable(string name) {
     if(this->symbolTable.find(name) != this->symbolTable.end()){
-        return this->symbolTable.find(name)->second;
+        unique_lock<mutex> ul(m);
+        double result = this->symbolTable.find(name)->second;
+        ul.unlock();
+        return result;
     }
     throw "var not found";
 }
@@ -60,7 +66,9 @@ double SymbolTableManager::getValueFromSymbolTable(string name) {
  */
 void SymbolTableManager::initializationArrayToZero() {
     for(int i = 0; i < PATHS_AMOUNT; i++){
+        unique_lock<mutex> ul1(m);
         this->flightGearValues[i] = 0;
+        ul1.unlock();
     }
 }
 
@@ -159,11 +167,15 @@ void SymbolTableManager::setServer(TCPServer server) {
 void SymbolTableManager::setValuesFromFlightGear(vector<string> values) {
     ShuntingYard sy(this);
     for (int i = 0; i < PATHS_AMOUNT; i++){
+        unique_lock<mutex> ul2(m);
         this->flightGearValues[i] = sy.fromInfixToExp(values[i])->calculate();
+        ul2.unlock();
     }
     for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
         int index = it->second;
+        unique_lock<mutex> ul3(m);
         double value = this->flightGearValues[index];
+        ul3.unlock();
         updateValueAndDependentOn(it->first,value);
     }
 }
@@ -176,8 +188,10 @@ void SymbolTableManager::setValuesFromFlightGear(vector<string> values) {
 double SymbolTableManager::getValueOfPathOrVar(string prm) {
     double value;
     if (this->fromPathToIndex.find(prm) != this->fromPathToIndex.end()) {
+        unique_lock<mutex> ul4(m);
         int index = fromPathToIndex.at(prm);
         value = flightGearValues[index];
+        ul4.unlock();
     } else {
         ShuntingYard sy(this);
         Expression* exp = sy.fromInfixToExp(prm);
@@ -213,7 +227,7 @@ void SymbolTableManager::setVarOrPath(string prm1, double value) {
  */
 void SymbolTableManager::updateValueAndDependentOn(string prm1, double value) {
     //if the parm1 does not found at dependencyMap
-    if(dependencyMap.find(prm1)== dependencyMap.end()){
+    if(dependencyMap.find(prm1)== dependencyMap.end()) {
         set<string> set1;
         //insert him to the set
         set1.insert(prm1);
@@ -275,7 +289,9 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
         for (string s: mainSet) {
             setVarOrPath(s, value);
             if (dependencyMap.find(s) != dependencyMap.end()) {
+                unique_lock<mutex> ul5(m);
                 dependencyMap.find(s)->second = mainSet;
+                ul5.unlock();
             }
         }
      /*
@@ -286,7 +302,9 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
     }else {
         for (string s: mainSet) {
             if (dependencyMap.find(s) != dependencyMap.end()) {
+                unique_lock<mutex> ul6(m);
                 dependencyMap.find(s)->second = mainSet;
+                ul6.unlock();
             }
         }
     }

@@ -7,18 +7,20 @@
 #include <iostream>
 #include <cstring>
 #include "SocketCommunication.h"
+#define BUFFER_SIZE 1024
 
-#define MESSAGE_SEPERATOR '\n'
 
-//constructor
+/*
+ * this is the constructor of the SocketCommunication.
+ */
 SocketCommunication::SocketCommunication() {
 }
 
 /**
  * The function read from the given socket until the given separator and returns what it reads.
  * @param socket the socket to read from
- * @param seperator read until the separator
- * @return what the function reaf from the socket
+ * @param separator read until the separator
+ * @return what the function read from the socket
  */
 string SocketCommunication::readFromSocket(int socket, char separator) {
 //    char buffer[256];
@@ -64,9 +66,10 @@ string SocketCommunication::readFromSocket(int socket, char separator) {
  * @param data the string to write
  */
 void SocketCommunication::writeToSocket(int socket, string data) {
+    //הגודל של הבאפר היה 256 .שיניתי אותו אם לא עובד שנדע שזה בגלל זה .אם עובד למחוק הערה
     int n;
-    char buffer[256];
-    bzero(buffer,256);
+    char buffer[BUFFER_SIZE];
+    bzero(buffer,BUFFER_SIZE);
     strcpy(buffer, data.c_str());
     //fgets(buffer,255,stdin);
 

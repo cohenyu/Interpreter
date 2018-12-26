@@ -23,7 +23,3 @@ Expression* BinaryExpression::getRightExpression() {
 /*
  * distractor of BinaryExpression
  */
-BinaryExpression::~BinaryExpression() {
-    delete this->left;
-    delete this->right;
-}

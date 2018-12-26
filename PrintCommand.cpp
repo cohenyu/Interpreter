@@ -8,7 +8,9 @@
 
 using namespace std;
 
-//constructor
+/*
+ * this is the constructor of the PrintCommand.
+ */
 PrintCommand::PrintCommand(SymbolTableManager* stm) {
     this->stm=stm;
 }

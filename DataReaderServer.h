@@ -1,6 +1,4 @@
-//
-// Created by yuval on 19/12/18.
-//
+
 
 #ifndef YUVALANDMIRIEL_DATAREADERSERVER_H
 #define YUVALANDMIRIEL_DATAREADERSERVER_H
@@ -9,9 +7,11 @@
 #include "TCPServer.h"
 #include "SymbolTableManager.h"
 #include <vector>
-
+/*
+ * this class represent DataReaderServer
+ * the class charge to accept the connection and read the data frm the server
+ */
 class DataReaderServer {
-    //TODO
     TCPServer server;
     int rate;
 public:

@@ -7,12 +7,18 @@
 
 #include "Command.h"
 #include "SymbolTableManager.h"
-
+/*
+ * this class represent a OpenServerCommand
+ * means its responsible to the connection with the server.
+ */
 class OpenServerCommand : public Command{
     SymbolTableManager* stm;
 public:
     OpenServerCommand(SymbolTableManager* stm);
     virtual  int doCommand(vector<string> data,int index);
+//    ~OpenServerCommand(){
+//        delete stm;
+//    }
 };
 
 

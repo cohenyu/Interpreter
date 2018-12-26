@@ -28,8 +28,6 @@ add_executable(YuvalandMiriel
         Minus.h
         Mul.cpp
         Mul.h
-        Neg.cpp
-        Neg.h
         Number.cpp
         Number.h
         Parser.cpp
@@ -38,8 +36,7 @@ add_executable(YuvalandMiriel
         Plus.h
         ShuntingYard.cpp
         ShuntingYard.h
-        UnaryExpression.cpp
-        UnaryExpression.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h SymbolTableManager.cpp SymbolTableManager.h AssignmentCommand.cpp AssignmentCommand.h ConditionParser.cpp ConditionParser.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h SocketCommunication.cpp SocketCommunication.h EnterC.cpp EnterC.h ExitCommand.cpp ExitCommand.h)
+        OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h DataReaderServer.cpp DataReaderServer.h TCPClient.cpp TCPClient.h SymbolTableManager.cpp SymbolTableManager.h AssignmentCommand.cpp AssignmentCommand.h ConditionParser.cpp ConditionParser.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h SocketCommunication.cpp SocketCommunication.h EnterC.cpp EnterC.h ExitCommand.cpp ExitCommand.h)
 
 
 target_link_libraries(YuvalandMiriel ${CMAKE_THREAD_LIBS_INIT})

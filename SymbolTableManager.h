@@ -6,6 +6,7 @@
 #define YUVALANDMIRIEL_SYMBOLTABLEMANAGER_H
 
 #include <string>
+#include <mutex>
 #include <map>
 #include <vector>
 #include <set>
@@ -15,8 +16,14 @@
 #define PATHS_AMOUNT 23
 
 using namespace std;
-
+/*
+ * this class represent a SymbolTableManager
+ * its include all the vars that live in the program
+ * and path in the xml.
+ * the class have maps the update during the progrm
+ */
 class SymbolTableManager {
+    mutable mutex m;
     map<string, double> symbolTable;
     map<string, int> fromPathToIndex;
     double flightGearValues[PATHS_AMOUNT];
@@ -35,10 +42,10 @@ public:
     void setClient(TCPClient* client);
     void setServer(TCPServer server);
     void closeSockets();
-   ~SymbolTableManager(){
-       //delete this->server;
-       delete this->client;
-   }
+//   ~SymbolTableManager(){
+//       //delete this->server;
+//       delete this->client;
+//   }
 
 private:
     //double strToDouble(string str);

@@ -33,7 +33,10 @@
 
 
 using  namespace std;
-
+/*
+ * this class represent a parser that execute commands .
+ * the class have vector of string that includes the commands and there parameters
+ */
 class Parser {
     map<string, Expression*> expsfCommand;
     vector<string> data;
@@ -43,9 +46,11 @@ class Parser {
 public:
     Parser(vector<string> data,SymbolTableManager* stm);
     void parser();
-    ~Parser(){
-    }
-    void freeMemory();
+//    ~Parser(){
+//        freeMemory();
+//    }
+//
+//    void freeMemory();
 
 private:
     map<string, Expression*> initializationMapExp();

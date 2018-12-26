@@ -9,14 +9,18 @@
 #define THIRD_PRM 3
 #define START_EXCUT 5
 
-// constructor
+/*
+ * this is the constructor of the WhileCommand.
+ */
 WhileCommand::WhileCommand(SymbolTableManager* stm) {
     this->stm=stm;
 }
 
-/**
- * while loop. The function takes the condition, and as long as the condition is true,
- * it parse the the information vector that contain the commands in the scope.
+/*
+ * this method take the right Expression and left Expression
+ * and the operator of the condition between them
+ * and as long as the condition is true,it parse the the
+ * information vector that contain the commands in the scope.
  * @param data the commands
  * @param index data
  * @return How much to move in the main vector to read the next command.
@@ -28,6 +32,7 @@ int WhileCommand::doCommand(vector<string> data, int index) {
     string rightStr = data[index + THIRD_PRM];
 
     vector<string> conditionData = this->createConditionData(data, index + START_EXCUT);
+    //check the correctness of the condition.
     while (this->checkCondition(leftStr, op, rightStr, this->stm)) {
         Parser parser(conditionData, this->stm);
         parser.parser();

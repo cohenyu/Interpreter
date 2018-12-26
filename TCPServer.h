@@ -1,12 +1,13 @@
-//
-// Created by yuval on 18/12/18.
-//
-//
+
 #ifndef PROJECT1_MY_DATAREADERSERVER_H
 #define PROJECT1_MY_DATAREADERSERVER_H
 
 #include "SocketCommunication.h"
-
+/*
+ * this class represent a TCPServer.
+ * it have port ,socket of the server
+ * and SocketCommunication in order to be able to connect
+ */
 class TCPServer{
     int port;
     int serverSocket;
@@ -19,8 +20,8 @@ public:
     string readFromServer(char separator);
     void writeToServer(string data);
     int getSocket();
-    ~TCPServer(){
-    }
+//    ~TCPServer(){
+//    }
 };
 
 #endif //PROJECT1_MY_DATAREADERSERVER_Ha

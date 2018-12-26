@@ -1,12 +1,13 @@
-//
-// Created by yuval on 19/12/18.
-//
 
 #ifndef YUVALANDMIRIEL_ASSIGNMENTCOMMAND_H
 #define YUVALANDMIRIEL_ASSIGNMENTCOMMAND_H
 
 #include "Command.h"
 #include "SymbolTableManager.h"
+/*
+ * this class represent AssignmentCommand, this class
+ * responsible to Assignment of valuse
+ */
 
 class AssignmentCommand: public Command{
     SymbolTableManager* stm;

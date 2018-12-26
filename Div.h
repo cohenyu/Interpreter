@@ -13,6 +13,7 @@ class Div :public BinaryExpression{
 public:
     Div(Expression* left, Expression* right);
     virtual double calculate();
+    //virtual ~Div(){};
 };
 
 

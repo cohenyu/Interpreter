@@ -12,6 +12,7 @@
  */
 Parser::Parser(vector<string> data, SymbolTableManager* stm) {
     this->stm = stm;
+    //this->initializationMapExp();
     this->expsfCommand = this->initializationMapExp();
     this->data = data;
     this->index = 0;
@@ -32,6 +33,7 @@ void Parser::parser() {
             index++;
         }
     }
+    //freeMemory();
 }
 
 /**
@@ -52,9 +54,9 @@ map<string, Expression*> Parser::initializationMapExp() {
 
     expC.insert(make_pair(PRINT,new CommandExpression(new PrintCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(SLEEP,new CommandExpression(new SleepCommand(this->stm), this->data, this->index)));
+   expC.insert(make_pair(SLEEP,new CommandExpression(new SleepCommand(this->stm), this->data, this->index)));
 
-    expC.insert(make_pair(IF,new CommandExpression(new IfCommand(this->stm), this->data, this->index)));
+   expC.insert(make_pair(IF,new CommandExpression(new IfCommand(this->stm), this->data, this->index)));
 
     expC.insert(make_pair(WHILE, new CommandExpression(new WhileCommand(this->stm), this->data, this->index)));
 
@@ -65,9 +67,9 @@ map<string, Expression*> Parser::initializationMapExp() {
     return expC;
 }
 
-void Parser::freeMemory() {
+//void Parser::freeMemory() {
 //    for (map<string,Expression*>::iterator it = this->expsfCommand.begin(); it !=  this->expsfCommand.end();it++){
 //        delete (*it).second;
 //    }
-
-}
+//
+//}

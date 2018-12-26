@@ -94,7 +94,7 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     pathAndIndex.insert(make_pair("/controls/flight/elevator", 18));
     pathAndIndex.insert(make_pair("/controls/flight/rudder", 19));
     pathAndIndex.insert(make_pair("/controls/flight/flaps", 20));
-    pathAndIndex.insert(make_pair("/controls/engines/current-/engine/throttle", 21));
+    pathAndIndex.insert(make_pair("/controls/engines/current-engine/throttle", 21));
     pathAndIndex.insert(make_pair("/engines/engine/rpm", 22));
 
     for(map<string,int>::iterator it = pathAndIndex.begin(); it != pathAndIndex.end(); ++it){

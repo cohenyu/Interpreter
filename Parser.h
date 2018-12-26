@@ -28,7 +28,7 @@
 #define PRINT "print"
 #define IF "if"
 #define SLEEP "sleep"
-#define ENTERC "enterc"
+#define ENTERC "Enterc"
 #define EXIT "exit"
 
 
@@ -49,7 +49,7 @@ public:
     ~Parser(){
         freeMemory();
     }
-//
+
     void freeMemory();
 
 private:

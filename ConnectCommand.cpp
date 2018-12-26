@@ -22,9 +22,11 @@ int ConnectCommand::doCommand(vector<string> data, int index) {
     int port;
     string ipAddress;
 
+    //ip is the first parameter
     ipAddress = data[index + 1];
 
     exp = shuntingYard.fromInfixToExp(data[index + 2]);
+    //calculate the second parameter for port
     port = static_cast<int>(exp->calculate());
     delete exp;
 

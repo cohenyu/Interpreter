@@ -24,10 +24,12 @@ int OpenServerCommand::doCommand(vector<string> data, int index) {
     Expression *exp;
     int rate, port;
 
+    // calculate the port
     exp = shuntingYard.fromInfixToExp(data[index + 1]);
     port = static_cast<int>(exp->calculate());
     delete exp;
 
+    // calculate the rate
     exp = shuntingYard.fromInfixToExp(data[index + 2]);
     rate = static_cast<int>(exp->calculate());
     delete exp;

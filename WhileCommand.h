@@ -21,9 +21,6 @@ class WhileCommand : public ConditionParser{
 public:
     WhileCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
-//    ~WhileCommand(){
-//        delete stm;
-//    }
 };
 
 

@@ -23,7 +23,6 @@ public:
     string readFromServer(char separator);
     void writeToServer(string data);
     ~TCPClient(){
-       // close(clientSocket);
     }
 };
 

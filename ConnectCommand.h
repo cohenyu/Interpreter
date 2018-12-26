@@ -16,10 +16,6 @@ class ConnectCommand : public Command{
 public:
     ConnectCommand(SymbolTableManager* stm);
     virtual  int doCommand(vector<string> data,int index);
-   // ~ConnectCommand(){
-   //     delete stm;
-   // }
-
 };
 
 

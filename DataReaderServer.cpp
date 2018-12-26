@@ -15,6 +15,13 @@
 
 using namespace std;
 
+/**
+ * this function reads line of values according to the xml file,
+ * and update the values in the symbol table
+ * @param socket socket
+ * @param rate
+ * @param stm
+ */
 void handleClient(int socket, int rate,SymbolTableManager *stm){
     int microSecToSleep = (1000/rate) * 1000;
     SocketCommunication socketCommunication;
@@ -22,23 +29,16 @@ void handleClient(int socket, int rate,SymbolTableManager *stm){
         string data = socketCommunication.readFromSocket(socket,NEW_LINE);
         vector<string> splited = split(data, COMMA);
         stm->setValuesFromFlightGear(splited);
-
         //cout << data << endl;
-        //todo
+
         usleep(microSecToSleep);
     }
 }
 
-
-/// todo
-// //stm->setServer(&server);
-
-// constructor
-// TODO
 /*
  * this is the constructor of DataReaderServer.
  */
-DataReaderServer::DataReaderServer(int port, int rate) {//: server(port){
+DataReaderServer::DataReaderServer(int port, int rate) {
     this->server = TCPServer(port);
     this->rate = rate;
 }

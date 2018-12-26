@@ -47,7 +47,6 @@ public:
    }
 
 private:
-    //double strToDouble(string str);
     void setVarOrPath(string prm1, double value);
     void setVarAtSymbolTable(string name, double value);
     void setValueOfFlightGear(string path, double value);

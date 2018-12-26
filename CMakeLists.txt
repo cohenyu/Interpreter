@@ -19,7 +19,6 @@ add_executable(YuvalandMiriel
         DefineVarCommand.h
         Div.cpp
         Div.h
-        Expression.cpp
         Expression.h
         Lexer.cpp
         Lexer.h

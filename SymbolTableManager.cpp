@@ -112,34 +112,6 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     return pathAndIndex;
 }
 
-//
-///**
-// * The function gets a string and turns it into a double number.
-// * @param str string number
-// * @return the double value
-// */
-//double SymbolTableManager::strToDouble(string str) {
-//    double val = 0;
-//    int i = 0;
-//
-//    while(i < str.length() && isdigit(str[i])) {
-//        val = (val * 10) + (str[i] - '0');
-//        i++;
-//    }
-//    int couter = 0;
-//    if (str[i] == DOT){
-//        i++;
-//        while(i < str.length() && isdigit(str[i]))
-//        {
-//            //val = val/10;
-//            val = (val * 10) + (str[i] - '0');
-//            couter++;
-//            i++;
-//        }
-//    }
-//    return  val/pow(10,couter);
-//    return  val;
-//}
 
 /**
  * this function set the TCPClient member
@@ -213,11 +185,6 @@ void SymbolTableManager::setVarOrPath(string prm1, double value) {
     } else {
         setVarAtSymbolTable(prm1, value);
     }
-//    if (this->fromPathToIndex.find(prm1) != this->fromPathToIndex.end()) {
-//        setValueOfFlightGear(prm1, value);
-//    } else {
-//        setVarAtSymbolTable(prm1, value);
-//    }
 }
 
 /**

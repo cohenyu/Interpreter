@@ -19,9 +19,6 @@ class IfCommand : public ConditionParser{
 public:
     IfCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
-   //~IfCommand(){
-   //    delete stm;
-   //}
 };
 
 

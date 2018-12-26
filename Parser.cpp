@@ -12,7 +12,6 @@
  */
 Parser::Parser(vector<string> data, SymbolTableManager* stm) {
     this->stm = stm;
-    //this->initializationMapExp();
     this->expsfCommand = this->initializationMapExp();
     this->data = data;
     this->index = 0;
@@ -23,7 +22,7 @@ Parser::Parser(vector<string> data, SymbolTableManager* stm) {
  * When it encounters a string that represents a command it triggers it.
  */
 void Parser::parser() {
-    //stand on thr cur commend
+    //stand on the cur commend
     index = 0;
     while (index < this->data.size()){
         if(expsfCommand.find(data[index]) != expsfCommand.end()){
@@ -33,7 +32,6 @@ void Parser::parser() {
             index++;
         }
     }
-    //freeMemory();
 }
 
 /**

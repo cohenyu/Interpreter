@@ -20,8 +20,6 @@ public:
     string readFromServer(char separator);
     void writeToServer(string data);
     int getSocket();
-//    ~TCPServer(){
-//    }
 };
 
 #endif //PROJECT1_MY_DATAREADERSERVER_Ha

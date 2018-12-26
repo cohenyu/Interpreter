@@ -18,9 +18,7 @@ class PrintCommand: public Command {
 public:
     PrintCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data,int index);
-//    ~PrintCommand(){
-//        delete stm;
-//    }
+
 };
 
 

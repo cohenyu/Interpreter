@@ -1,20 +1,18 @@
-////
-//// Created by yuval on 18/12/18.
-////
-//
+
 #include <netinet/in.h>
 #include <cstdio>
 #include <cstdlib>
 #include <memory.h>
 #include <unistd.h>
 #include <thread>
+#include <iostream>
 #include "TCPServer.h"
 #define BUFFER_SIZE 1024
 
 /*
  * this is the constructor of the TCPServer.
  */
-TCPServer::TCPServer(int port) {// : socketCommunication(-1)
+TCPServer::TCPServer(int port) {
     this->port = port;
     //initialize the socket to -1
     this->serverSocket = -1;
@@ -45,8 +43,7 @@ void TCPServer::startListenToConnect() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(this->port);
-    // todo miriel yuval
-    //socketCommunication.readFromSocket(serverSocket, '\n');
+
 
     /* Now bind the host address using bind() call.*/
     if (bind(this->serverSocket, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
@@ -66,10 +63,8 @@ void TCPServer::startListenToConnect() {
  * @return the socket
  */
 int TCPServer::acceptConnectionFromClient() {
-    int sockfd, newsockfd, clilen;
-    char buffer[BUFFER_SIZE + 1];
+    int newsockfd, clilen;
     struct sockaddr_in cli_addr;
-    int n;
 
     clilen = sizeof(cli_addr);
 
@@ -81,6 +76,7 @@ int TCPServer::acceptConnectionFromClient() {
         exit(1);
     }
 
+    //cout << "the flightgear is connected to me" << endl;
     return newsockfd;
 }
 

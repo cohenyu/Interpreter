@@ -1,7 +1,4 @@
-////
-//// Created by yuval on 19/12/18.
-////
-//
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -49,18 +46,13 @@ void TCPClient::connectToServer() {
 
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    //todo לבדוק אם ככה אצל מיכאל כי זה אומר שהקאסטינג מיותר
     bcopy((char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(this->port);
-// todo
-   // sleep(10);
     /* Now connect to the server */
     if (connect(this->clientSocket, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR connecting");
         exit(1);
     }
-    //todo להוריד הדפסות
-    cout << "connected" << endl;
 }
 
 /**

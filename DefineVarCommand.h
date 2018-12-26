@@ -17,9 +17,6 @@ class DefineVarCommand : public Command{
 public:
     DefineVarCommand(SymbolTableManager* stm);
     virtual int doCommand(vector<string> data, int index);
-   // ~DefineVarCommand(){
-   //     delete stm;
-   // }
 
 };
 

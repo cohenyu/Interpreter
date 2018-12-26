@@ -21,5 +21,5 @@ Expression* BinaryExpression::getRightExpression() {
     return this->right;
 }
 /*
- * distractor of BinaryExpression
+ * distructor of BinaryExpression
  */

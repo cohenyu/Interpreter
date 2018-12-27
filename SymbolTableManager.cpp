@@ -26,8 +26,10 @@ SymbolTableManager::SymbolTableManager() {
 void SymbolTableManager::addVarToSymbolTable(string name, double value) {
     set<string> vars;
     vars.insert(name);
+    //unique_lock<mutex> ul9(m);
     this->symbolTable.insert(make_pair(name, value));
     dependencyMap.insert(make_pair(name, vars));
+    //ul9.unlock();
 
 }
 
@@ -37,10 +39,10 @@ void SymbolTableManager::addVarToSymbolTable(string name, double value) {
  * @param value the value
  */
 void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
-    unique_lock<mutex> ul(m);
     if (this->symbolTable.find(name) == this->symbolTable.end()){
         throw "this var does not have declaration";
     }
+    unique_lock<mutex> ul(m);
     this->symbolTable.find(name)->second = value;
     ul.unlock();
 }
@@ -51,12 +53,12 @@ void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
  * @return the value of the var
  */
 double SymbolTableManager::getValueFromSymbolTable(string name) {
-    unique_lock<mutex> ul(m);
     if(this->symbolTable.find(name) != this->symbolTable.end()){
+        unique_lock<mutex> ul(m);
         double result = this->symbolTable.find(name)->second;
+        ul.unlock();
         return result;
     }
-    ul.unlock();
     throw "var not found";
 }
 
@@ -64,11 +66,11 @@ double SymbolTableManager::getValueFromSymbolTable(string name) {
  * The function initializes the array of the values ​​from the flight gear to zero.
  */
 void SymbolTableManager::initializationArrayToZero() {
+    //unique_lock<mutex> ul1(m);
     for(int i = 0; i < PATHS_AMOUNT; i++){
-        unique_lock<mutex> ul1(m);
         this->flightGearValues[i] = 0;
-        ul1.unlock();
     }
+    //ul1.unlock();
 }
 
 /**
@@ -104,11 +106,14 @@ map<string, int> SymbolTableManager::initPathsToIndex() {
     pathAndIndex.insert(make_pair("/controls/engines/current-engine/throttle", 21));
     pathAndIndex.insert(make_pair("/engines/engine/rpm", 22));
 
+    //unique_lock<mutex> ul7(m);
+
     for(map<string,int>::iterator it = pathAndIndex.begin(); it != pathAndIndex.end(); ++it){
         set<string> vars;
         vars.insert(it->first);
         dependencyMap.insert(make_pair(it->first, vars));
     }
+    //ul7.unlock();
     return pathAndIndex;
 }
 
@@ -138,17 +143,17 @@ void SymbolTableManager::setServer(TCPServer server) {
 void SymbolTableManager::setValuesFromFlightGear(vector<string> values) {
     ShuntingYard sy(this);
     for (int i = 0; i < PATHS_AMOUNT; i++){
-        unique_lock<mutex> ul2(m);
         Expression* result = sy.fromInfixToExp(values[i]);
+        unique_lock<mutex> ul2(m);
         this->flightGearValues[i] = result->calculate();
-        delete result;
         ul2.unlock();
+        delete result;
     }
     for (map<string,int>::iterator it = this->fromPathToIndex.begin(); it != this->fromPathToIndex.end(); ++it){
+        unique_lock<mutex> ul2(m);
         int index = it->second;
-        unique_lock<mutex> ul3(m);
         double value = this->flightGearValues[index];
-        ul3.unlock();
+        ul2.unlock();
         updateValueAndDependentOn(it->first,value);
     }
 }
@@ -195,6 +200,7 @@ void SymbolTableManager::setVarOrPath(string prm1, double value) {
  */
 void SymbolTableManager::updateValueAndDependentOn(string prm1, double value) {
     //if the parm1 does not found at dependencyMap
+    //todo
     if(dependencyMap.find(prm1)== dependencyMap.end()) {
         set<string> set1;
         //insert him to the set
@@ -241,7 +247,7 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
 
     //run over the dependency map and enther parameters that depend on it to the main set
     for (string s: dependencyMap.find(prm1)->second) {
-            mainSet.insert(s);
+        mainSet.insert(s);
     }
     //run over the dependency map and enther parameters that depend on it to the main set
     for (string s: dependencyMap.find(prm2)->second) {
@@ -262,11 +268,11 @@ void SymbolTableManager::createDependency(string prm1, string prm2) {
                 ul5.unlock();
             }
         }
-     /*
-     * if not in xml  or var we take his value and
-     * 1.put for every depend parameters the value
-     * 2.initilize the set of every depend parameter to the main set
-     */
+        /*
+        * if not in xml  or var we take his value and
+        * 1.put for every depend parameters the value
+        * 2.initilize the set of every depend parameter to the main set
+        */
     }else {
         for (string s: mainSet) {
             if (dependencyMap.find(s) != dependencyMap.end()) {

@@ -1,12 +1,8 @@
-#include <iostream>
-#include "ShuntingYard.h"
 #include "Lexer.h"
 #include "Parser.h"
-#include "DataReaderServer.h"
-#include <ostream>
-#include <unistd.h>
-#include <math.h>
-#include <TCPClient.h>
+#include "SymbolTableManager.h"
+#include <vector>
+
 
 int main(int argc, char **argv) {
 

@@ -18,7 +18,7 @@ SleepCommand::SleepCommand(SymbolTableManager* stm) {
  * @param index the index of the command
  * @return How much to move in the main vector to read the next command.
  */
-int SleepCommand::doCommand(vector<string> data, int index) {
+unsigned int SleepCommand::doCommand(vector<string> data, unsigned int index) {
     string str = data[index + 1];
     ShuntingYard shuntingYard(stm);
     Expression *milisec = shuntingYard.fromInfixToExp(str);

@@ -63,7 +63,7 @@ bool ConditionParser::checkCondition(string leftStr, string op, string rightStr,
 vector<string> ConditionParser::createConditionData(vector<string> data, int index) {
     int counter = 1;
     vector<string> conditionData;
-    int i = index;
+    unsigned int i = index;
     //when counter is 0,its mean we finish the scope
     while (counter != 0 && i < data.size()){
         if (data[i] == "{"){

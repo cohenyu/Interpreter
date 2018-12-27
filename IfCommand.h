@@ -18,7 +18,7 @@ class IfCommand : public ConditionParser{
     SymbolTableManager* stm;
 public:
     IfCommand(SymbolTableManager* stm);
-    virtual int doCommand(vector<string> data, int index);
+    virtual unsigned int doCommand(vector<string> data, unsigned int index);
 };
 
 

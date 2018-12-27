@@ -37,10 +37,10 @@ void SymbolTableManager::addVarToSymbolTable(string name, double value) {
  * @param value the value
  */
 void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
+    unique_lock<mutex> ul(m);
     if (this->symbolTable.find(name) == this->symbolTable.end()){
         throw "this var does not have declaration";
     }
-    unique_lock<mutex> ul(m);
     this->symbolTable.find(name)->second = value;
     ul.unlock();
 }
@@ -51,12 +51,12 @@ void SymbolTableManager::setVarAtSymbolTable(string name, double value) {
  * @return the value of the var
  */
 double SymbolTableManager::getValueFromSymbolTable(string name) {
+    unique_lock<mutex> ul(m);
     if(this->symbolTable.find(name) != this->symbolTable.end()){
-        unique_lock<mutex> ul(m);
         double result = this->symbolTable.find(name)->second;
-        ul.unlock();
         return result;
     }
+    ul.unlock();
     throw "var not found";
 }
 

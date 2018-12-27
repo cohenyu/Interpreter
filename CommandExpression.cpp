@@ -4,7 +4,7 @@
 /*
  * this is the constructor of the CommandExpression.
  */
-CommandExpression::CommandExpression(Command* command, vector<string>& data, int& index ):
+CommandExpression::CommandExpression(Command* command, vector<string>& data, unsigned int& index ):
     data(data), index(index){
     this->command = command;
 

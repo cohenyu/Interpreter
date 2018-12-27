@@ -32,7 +32,7 @@
 #define PRINT "print"
 #define IF "if"
 #define SLEEP "sleep"
-#define ENTERC "enterc"
+#define ENTERC "Enterc"
 #define BIND "bind"
 
 
@@ -57,6 +57,9 @@ vector<string> Lexer::lexer(int argc, char **argv) {
             return fromTxtToData(string);
         }
     }
+    perror("File not inserted");
+
+    return vector<string>();
 }
 
 /**
@@ -74,7 +77,7 @@ vector<string> Lexer::fromTxtToData(string fileName) {
     vector<string> data;
     string token;
     for(string line; getline(inputFile, line);){
-        for (int j =0; j<line.length(); j++){
+        for (unsigned int j =0; j<line.length(); j++){
             char cur= line[j];
             // if the cur is not a letter or a number so we want to put the token in the vector
             //and initialize the token
@@ -174,7 +177,7 @@ vector<string> Lexer::arithmeticProcess(vector<string> tempData) {
     vector<string> data;
     bool flag = false;
     // Move through the cells in the vector
-    for(int i =0; i < tempData.size(); i++) {
+    for( unsigned int i =0; i < tempData.size(); i++) {
 
         // check if the current cell contains IP, command or comparison operator
         if (isIp(tempData[i]) || isCommand(tempData[i]) || isCmpOperator(tempData[i]) || tempData[i] == ",") {
@@ -230,7 +233,7 @@ bool Lexer::isCommand(string str) {
  */
 bool Lexer::isIp(string str) {
     int pointCounter = 0;
-    for(int i = 0; i < str.length(); i++){
+    for(unsigned int i = 0; i < str.length(); i++){
         if (isdigit(str[i]) || str[i] == '.') {
           if (str[i] == '.'){
               pointCounter ++;

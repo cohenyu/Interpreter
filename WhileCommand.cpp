@@ -25,7 +25,7 @@ WhileCommand::WhileCommand(SymbolTableManager* stm) {
  * @param index data
  * @return How much to move in the main vector to read the next command.
  */
-int WhileCommand::doCommand(vector<string> data, int index) {
+unsigned int WhileCommand::doCommand(vector<string> data, unsigned int index) {
 
     string leftStr = data[index + FIRST_PRM];
     string op = data[index + SEC_PRM];

@@ -19,7 +19,7 @@ OpenServerCommand::OpenServerCommand(SymbolTableManager* stm) {
  * @param index the index if the command on the vector
  * @return how mach moves to step after this command.
  */
-int OpenServerCommand::doCommand(vector<string> data, int index) {
+unsigned int OpenServerCommand::doCommand(vector<string> data, unsigned int index) {
     ShuntingYard shuntingYard(stm);
     Expression *exp;
     int rate, port;

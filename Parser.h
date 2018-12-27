@@ -40,7 +40,7 @@ using  namespace std;
 class Parser {
     map<string, Expression*> expsfCommand;
     vector<string> data;
-    int index;
+    unsigned int index;
     SymbolTableManager* stm;
 
 public:

@@ -13,7 +13,7 @@ class AssignmentCommand: public Command{
     SymbolTableManager* stm;
 public:
     AssignmentCommand(SymbolTableManager* stm);
-    virtual int doCommand(vector<string> data, int index);
+    virtual unsigned int doCommand(vector<string> data, unsigned int index);
 
 private:
     string deleteQuote(string str);

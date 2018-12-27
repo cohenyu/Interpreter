@@ -13,11 +13,11 @@
 class CommandExpression: public Expression {
     Command*  command;
     vector<string> &data;
-    int &index;
+    unsigned int &index;
 
 
 public:
-    CommandExpression(Command* command,vector<string>& data, int &index);
+    CommandExpression(Command* command,vector<string>& data, unsigned int &index);
     virtual double calculate();
 
     virtual ~CommandExpression(){

@@ -11,7 +11,7 @@
  * @param index the index if the command on the vector
  * @return how mach moves to step after this command.
  */
-int EnterC::doCommand(vector<string> data, int index) {
+unsigned int EnterC::doCommand(vector<string> data, unsigned int index) {
     char c;
     cin >> c;
     return 1;

@@ -56,7 +56,7 @@ Expression* ShuntingYard::fromInfixToExp(string infixExpression) {
     //flag that symbole that we enter to the values stack a neg number
     int isNeg =1;
     //run over the infix string
-    for(int  i = 0; i < infixExpression.length(); i++){
+    for(unsigned int  i = 0; i < infixExpression.length(); i++){
 
         // Current exp is a whitespace,skip it.
         if(infixExpression[i] == ' ' || infixExpression[i] == '\n'){

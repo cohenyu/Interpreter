@@ -22,7 +22,7 @@ PrintCommand::PrintCommand(SymbolTableManager* stm) {
  * @param index the index of the print command
  * @return How much to move in the main vector to read the next command.
  */
-int PrintCommand::doCommand(vector<string> data, int index) {
+unsigned int PrintCommand::doCommand(vector<string> data, unsigned int index) {
     string str = data[index +1];
     if (str[0] == '\"'){
         str = str.substr(1, str.length()-2);

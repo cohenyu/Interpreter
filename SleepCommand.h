@@ -15,7 +15,7 @@ class SleepCommand: public Command {
     SymbolTableManager* stm;
 public:
     SleepCommand(SymbolTableManager* stm);
-    virtual int doCommand(vector<string> data,int index);
+    virtual unsigned int doCommand(vector<string> data,unsigned int index);
 
 };
 

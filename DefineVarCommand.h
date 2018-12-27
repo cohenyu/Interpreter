@@ -16,7 +16,7 @@ class DefineVarCommand : public Command{
     SymbolTableManager* stm;
 public:
     DefineVarCommand(SymbolTableManager* stm);
-    virtual int doCommand(vector<string> data, int index);
+    virtual unsigned int doCommand(vector<string> data, unsigned int index);
 
 };
 

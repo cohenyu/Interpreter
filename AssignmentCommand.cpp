@@ -17,7 +17,7 @@ AssignmentCommand::AssignmentCommand(SymbolTableManager *stm) {
  * we have 2 parameters
  * one before the = operator ,and another after the = operator
  */
-int AssignmentCommand::doCommand(vector<string> data, int index) {
+unsigned int AssignmentCommand::doCommand(vector<string> data, unsigned int index) {
     int returnValue;
     string prm1 = data[index - 1];
 

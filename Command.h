@@ -1,7 +1,9 @@
+//
+// Created by yuval on 27/12/18.
+//
 
-
-#ifndef PROJECT1_MY_COMMAND_H
-#define PROJECT1_MY_COMMAND_H
+#ifndef YUVALANDMIRIEL_COMMAND_H
+#define YUVALANDMIRIEL_COMMAND_H
 
 #include <vector>
 #include <string>
@@ -14,11 +16,11 @@ using namespace std;
  */
 class Command{
 public:
-    virtual int doCommand(vector<string> data,int index) = 0;
+    virtual unsigned int doCommand(vector<string> data,unsigned int index) = 0;
+    virtual ~Command(){}
 
 };
 
 
 
-
-#endif //PROJECT1_MY_COMMAND_H
+#endif //YUVALANDMIRIEL_COMMAND_H

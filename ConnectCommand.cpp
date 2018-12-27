@@ -15,7 +15,7 @@ ConnectCommand::ConnectCommand(SymbolTableManager* stm) {
  * 2 expression.
  * the connect have port and ip
  */
-int ConnectCommand::doCommand(vector<string> data, int index) {
+unsigned int ConnectCommand::doCommand(vector<string> data, unsigned int index) {
 
     ShuntingYard shuntingYard(stm);
     Expression *exp;

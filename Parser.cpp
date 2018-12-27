@@ -4,7 +4,6 @@
 
 #include "Parser.h"
 #include "EnterC.h"
-#include "ExitCommand.h"
 
 
 /*
@@ -60,8 +59,7 @@ map<string, Expression*> Parser::initializationMapExp() {
 
     expC.insert(make_pair(ENTERC, new CommandExpression(new EnterC(), this->data, this->index)));
 
-    expC.insert(make_pair(EXIT, new CommandExpression(new ExitCommand(this->stm), this->data, this->index)));
-
+  
     return expC;
 }
 

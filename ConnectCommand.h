@@ -15,7 +15,7 @@ class ConnectCommand : public Command{
     SymbolTableManager* stm;
 public:
     ConnectCommand(SymbolTableManager* stm);
-    virtual  int doCommand(vector<string> data,int index);
+    virtual  unsigned int doCommand(vector<string> data,unsigned int index);
 };
 
 

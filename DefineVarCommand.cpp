@@ -16,7 +16,7 @@ DefineVarCommand::DefineVarCommand(SymbolTableManager *stm) {
  * @param index the index if the command on the vector
  * @return how mach moves to step after this command.
  */
-int DefineVarCommand::doCommand(vector<string> data, int index) {
+unsigned int DefineVarCommand::doCommand(vector<string> data, unsigned int index) {
     string varName = data[index +1];
     this->stm->addVarToSymbolTable(varName, 0);
 

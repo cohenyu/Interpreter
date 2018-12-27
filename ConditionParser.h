@@ -23,7 +23,7 @@ protected:
     virtual vector<string> createConditionData (vector<string> data, int index);
 
 public:
-    virtual int doCommand(vector<string> data, int index) = 0;
+    virtual unsigned int doCommand(vector<string> data, unsigned int index) = 0;
 };
 
 

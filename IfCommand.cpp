@@ -21,7 +21,7 @@ IfCommand::IfCommand(SymbolTableManager* stm) {
  * @param index the index if the command on the vector
  * @return how mach moves to step after this command.
  */
-int IfCommand::doCommand(vector<string> data, int index) {
+unsigned int IfCommand::doCommand(vector<string> data, unsigned int index) {
     // take the 2 parameters and the operator
     string leftStr = data[index + FIRST_PRM];
     string op = data[index + SEC_PRM];
